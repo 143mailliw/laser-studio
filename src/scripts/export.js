@@ -64,22 +64,26 @@ function createEffectsExpression() {
   }
 
   if(expand) {
-    baseString = baseString + "<br>y' = y' * abs(cos(projectionTime))*2)<br>x' = x' * abs(cos(projectionTime))*2)"
+    baseString = baseString + "<br>y' = y' * abs(cos(projectionTime))*2<br>x' = x' * abs(cos(projectionTime))*2"
   }
 
   return baseString
 }
 
+function fullExport() {
+  let baseString = ""
+  if(Object.values(fileObject.graphical.indexObject).includes(true)) {
+    console.log("a");
+    baseString = baseString + createGraphicsExpression() + "<br>"
+  }
+  baseString = baseString + fileObject.editor.text.replace(/[\n\r]/g, '<br>');
+  baseString = baseString + createEffectsExpression();
+  return baseString
+}
+
 function exportSetup() {
   document.getElementById("export").addEventListener("click", () => {
-    let baseString = ""
-    if(Object.values(fileObject.graphical.indexObject).includes(true)) {
-      console.log("a");
-      baseString = baseString + createGraphicsExpression() + "<br>"
-    }
-    baseString = baseString + fileObject.editor.text.replace(/[\n\r]/g, '<br>');
-    baseString = baseString + createEffectsExpression();
-    document.getElementById("output").innerHTML = baseString;
+    document.getElementById("output").innerHTML = fullExport();
     document.getElementById("export-dialog").style.display = "block";
     document.getElementById("dialog-close").style.display = "block";
   })

@@ -15,8 +15,8 @@ if(process.argv[2] == '--dev') {
 function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 820,
+    height: 900,
     webPreferences: {
       nodeIntegration: true
     },

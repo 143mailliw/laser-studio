@@ -32,6 +32,7 @@ function setup() {
   graphicalSetup();
   exportSetup();
   textSetup();
+  setupRender();
 
   //setup toolbar
   document.getElementById("clear").addEventListener("click", () => {
@@ -58,8 +59,12 @@ function setup() {
       }],
       properties: ["showOverwriteConfirmation"]
     }).then(result => {
+      filePath = result.filePath
+      if (!filePath.endsWith(".lse")) {
+        filePath = filePath + ".lse"
+      }
       if(!result.canceled) {
-        fs.writeFileSync(result.filePath, JSON.stringify(fileObject));
+        fs.writeFileSync(filePath, JSON.stringify(fileObject));
       }
     })
   })
@@ -71,8 +76,12 @@ function setup() {
       }],
       properties: ["openFile"]
     }).then(result => {
+      filePath = result.filePaths[0]
+      if (!filePath.endsWith(".lse")) {
+        filePath = filePath + ".lse"
+      }
       if(!result.canceled) {
-        result = fs.readFileSync(result.filePaths[0])
+        result = fs.readFileSync(filePath)
         fileObject = JSON.parse(result);
         renderGraphicalDocument();
         editor.setValue(fileObject.editor.text)
@@ -111,24 +120,47 @@ function setup() {
   document.getElementById("text-tab").addEventListener("click", (e) => {
     e.target.className = "tabbar-item tabbar-item-active"
     document.getElementById("graphical-tab").className = "tabbar-item"
+    document.getElementById("render-tab").className = "tabbar-item"
 
     document.getElementById("text").style.display = "block"
     document.getElementById("menu-edit-text").style.display = "block"
+
+    document.getElementById("render").style.display = "none"
 
     document.getElementById("menu-edit-graphical").style.display = "none"
     document.getElementById("graphical").style.display = "none"
 
     editor.layout()
+    stopDrawing()
   })
   document.getElementById("graphical-tab").addEventListener("click", (e) => {
     e.target.className = "tabbar-item tabbar-item-active"
     document.getElementById("text-tab").className = "tabbar-item"
+    document.getElementById("render-tab").className = "tabbar-item"
 
     document.getElementById("menu-edit-graphical").style.display = "block"
     document.getElementById("graphical").style.display = "block"
 
+    document.getElementById("render").style.display = "none"
+
     document.getElementById("text").style.display = "none"
     document.getElementById("menu-edit-text").style.display = "none"
+
+    stopDrawing()
+  })
+  document.getElementById("render-tab").addEventListener("click", (e) => {
+    e.target.className = "tabbar-item tabbar-item-active"
+    document.getElementById("text-tab").className = "tabbar-item"
+    document.getElementById("graphical-tab").className = "tabbar-item"
+
+    document.getElementById("render").style.display = "block"
+
+    document.getElementById("menu-edit-graphical").style.display = "none"
+    document.getElementById("graphical").style.display = "none"
+
+    document.getElementById("text").style.display = "none"
+    document.getElementById("menu-edit-text").style.display = "none"
+    startDrawing()
   })
   document.getElementById("close").addEventListener("click", (e) => {
     var window = remote.getCurrentWindow();
