@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <title>Laser Studio</title>
+    <script type="text/javascript" src="./scripts/main.js"></script>
+    <script type="text/javascript" src="./scripts/graphical.js"></script>
+    <script type="text/javascript" src="./scripts/text.js"></script>
+    <script type="text/javascript" src="./scripts/export.js"></script>
+    <script type="text/javascript" src="./scripts/copyToClipboard-min.js"></script>
+    <link rel="stylesheet" href="css/graphical.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/menubar.css">
+    <link rel="stylesheet" href="css/tabbar.css">
+    <link rel="stylesheet" href="css/text.css">
+    <link href="fa/css/all.css" rel="stylesheet"> 
+  </head>
+  <body onload="setup()">
+    <div class="app">
+      <div class="dialogs">
+        <div class="dialog" style="display: none" id="about-dialog">
+          <h1>Laser Studio</h1>
+          <div class="about-version">1.0 beta</div>
+          <div class="about-copyright">
+            Licensed under the Apache License 2.0<br>
+            © 2020 william341, Chrnan6710. Some rights reserved.
+          </div>
+        </div>
+        <div class="dialog" style="display: none" id="resize-dialog">
+          <input type="text" id="graphical-wsize" placeholder="Width">
+          <input type="text" id="graphical-hsize" placeholder="Height">
+          <div class="button dismiss-button" id="graphical-resize">Change Size</div>
+        </div>
+        <div class="export-dialog" style="display: none" id="export-dialog">
+          <div class="output-header">
+            <div class="output-header-text">output</div>
+            <div class="output-copy" id="output-copy">click to copy</div>
+          </div>
+          <div class="output-body" id="output">Waiting for export...</div>
+        </div>
+        <div class="dialog-close" id="dialog-close" style="display: none"></div>
+      </div>
+      <div class="app-menubar">
+        <div class="app-menubar-header">
+          <div class="app-menubar-header-icon"></div>
+          <div class="app-menubar-header-text">Laser Studio</div>
+        </div>
+        <div class="app-menubar-items" style="display: inline-block;">
+          <div class="app-menubar-item">
+            <span class="app-menubar-item-text">File</span>
+            <div class="app-menubar-menu">
+              <div class="app-menubar-menu-item" id="new">New</div>
+              <div class="app-menubar-menu-item" id="save">Save</div>
+              <div class="app-menubar-menu-item" id="open">Open</div>
+              <div class="app-menubar-menu-item" id="export">Export</div>
+            </div>
+          </div>
+          <div class="app-menubar-item">
+            <span class="app-menubar-item-text">Edit</span>
+            <div class="app-menubar-menu">
+              <div id="menu-edit-graphical">
+                <div class="app-menubar-menu-item" id="clear">Clear</div>
+                <div class="app-menubar-menu-item" id="menu-resize">Resize</div>
+              </div>
+              <div id="menu-edit-text" style="display: none">
+                <div class="app-menubar-menu-item" id="text-undo">Undo</div>
+                <div class="app-menubar-menu-item" id="text-redo">Redo</div>
+                <div class="app-menubar-menu-item" id="text-find">Find</div>
+              </div>
+            </div>
+          </div>
+          <div class="app-menubar-item">
+            <span class="app-menubar-item-text">Help</span>
+            <div class="app-menubar-menu">
+              <div class="app-menubar-menu-item" id="help-discord">Join our discord!</div>
+              <div class="app-menubar-menu-item" id="help-about">About Laser Studio</div>
+            </div>
+          </div>
+        </div>
+        <div class="app-menubar-buttons">
+          <div class="app-menubar-button" id="minimize">
+            <i class="fas fa-minus"></i>
+          </div>
+          <div class="app-menubar-button" id="maximize">
+            <i class="fas fa-window-restore"></i>
+          </div>
+          <div class="app-menubar-button" id="close">
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
+      </div>
+      <div class="tabbar">
+        <div class="tabbar-item tabbar-item-active" id="graphical-tab">graphical</div>
+        <div class="tabbar-item" id="text-tab">text</div>
+      </div>
+      <div class="graphical" id="graphical">
+        <div class="graphical-effects">
+          <span class="graphical-effects-header">(legacy) effects</span>
+          <div>
+            <div class="checkbox off" id="graphical-enable-spin"></div>
+            <span>3D Rotation</span>
+          </div>
+          <div>
+            <div class="checkbox off" id="graphical-enable-bounce"></div>
+            <span>Bounce</span>
+          </div>
+          <div>
+            <div class="checkbox off" id="graphical-enable-expand"></div>
+            <span>Expand</span>
+          </div>
+        </div>
+        <div class="graphical-main">
+          <div id="graphical-display" class="graphical-display"></div>
+          <div class="graphical-output">
+            <div class="graphical-output-header">
+              <div class="graphical-output-header-text">output</div>
+              <div class="graphical-output-copy" id="graphical-copy">click to copy</div>
+            </div>
+            <div class="graphical-output-body" id="graphical-output">Waiting for export...</div>
+          </div>
+        </div>
+      </div>
+      <div class="text" id="text" style="display: none;">
+        <div class="text-container" id="text-container"></div>
+      </div>
+    </div>
+  </body>
+</html>

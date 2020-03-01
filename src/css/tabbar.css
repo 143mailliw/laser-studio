@@ -1,0 +1,28 @@
+.tabbar {
+  width: 100%;
+  background-color: #1d1d1d;
+}
+
+.tabbar-item {
+  display: inline-block;
+  position: relative;
+  cursor: default;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.35rem;
+  background-color: #1d1d1d;
+  margin-right: -0.25rem;
+  border-right: solid #191919 0.1rem;
+  transition: 0.2s;
+}
+
+.tabbar-item-active {
+  background-color: #222222;
+}
+
+.tabbar-item:hover {
+  background-color: #272727;
+}

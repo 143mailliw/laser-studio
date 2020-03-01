@@ -1,0 +1,77 @@
+.app-menubar {
+  width: calc(100% - 0.85rem);
+  top: 0;
+  left: 0;
+  background-color: #111111;
+  padding: 0.35rem;
+  padding-left: 0.5rem;
+  -webkit-app-region: drag
+}
+
+.app-menubar-item {
+  display: inline-block;
+  position: relative;
+  cursor: default;
+  -webkit-app-region: no-drag;
+}
+
+.app-menubar-item-text {
+  font-size: 0.9rem;
+}
+
+.app-menubar-menu {
+  pointer-events: none;
+  background-color: #00000000;
+  color: #00000000;
+  position: absolute;
+  padding: 0.35rem 0;
+  z-index: 10;
+  border-radius: 0.25rem;
+  -webkit-app-region: no-drag;
+  transition: 0.2s;
+  margin-top: -0.5rem;
+  width: max-content;
+}
+
+.app-menubar-item:hover .app-menubar-menu {
+  pointer-events: initial;
+  background-color: #333333;
+  color: #cccccc;
+  margin-top: 0;
+}
+
+.app-menubar-menu-item {
+  padding: 0.15rem 0.5rem;
+  cursor: pointer;
+}
+
+.app-menubar-menu-item:hover {
+  background-color: #cccccc33;
+  transition: 0.2s;
+}
+
+.app-menubar-header {
+  border-right: solid #333333 0.05rem;
+  padding-right: 0.5rem;
+  margin-right: 0.35rem;
+  display: inline-block;
+}
+
+.app-menubar-header-text {
+  display: inline-block;
+}
+
+.app-menubar-buttons {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.5rem;
+  -webkit-app-region: no-drag;
+}
+
+.app-menubar-button {
+  height: 0.9rem;
+  margin-left: 0.15rem;
+  color: #999999;
+  display: inline-block;
+  cursor: pointer;
+}
