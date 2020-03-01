@@ -4,16 +4,32 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron . --dev",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^8.0.2"
+    "electron": "^8.0.2",
+    "electron-builder": "^22.3.2"
   },
   "dependencies": {
     "electron-debug": "^3.0.1",
     "electron-reload": "^1.5.0",
     "monaco-editor": "^0.20.0"
+  },
+  "build": {
+    "appId": "me.william341.laserstudio",
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": "zip",
+      "publisherName": "william341"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   }
 }

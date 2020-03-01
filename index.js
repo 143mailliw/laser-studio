@@ -1,13 +1,16 @@
 const { app, BrowserWindow } = require('electron')
-const debug = require('electron-debug');
 
-// Enable live reload for Electron too
-require('electron-reload')(__dirname, {
+if(process.argv[2] == '--dev') {
+  const debug = require('electron-debug');
+
+  // Enable live reload for Electron too
+  require('electron-reload')(__dirname, {
     // Note that the path to electron may vary according to the main file
     electron: require(`${__dirname}/node_modules/electron`)
-});
-
-debug()
+  });
+  
+  debug()
+}
 
 function createWindow () {
   // Create the browser window.
