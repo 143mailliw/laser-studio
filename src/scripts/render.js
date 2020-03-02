@@ -36,10 +36,10 @@ function convertToJs(laserCode) {
 
 function createSandboxFunction(jsFunction) {
   projectionStartTime = Date.now() / 1000;
-  return `let x = %X%
-let y = %Y%
-let index = %INDEX%
+  return `let index = %INDEX%
 let count = 400
+let x = index % 20
+let y = Math.floor(index/20)
 let fraction = index/count
 let pi = Math.PI
 let tau = Math.PI * 2
@@ -103,7 +103,7 @@ function drawFrame() {
 }
 
 function drawIndex(index,projectionTime) {
-  eval(projectionCode.replace("%INDEX%", index).replace("%X%", 1).replace("%Y%", 1).replace("%PROJECTIONTIME%", projectionTime))
+  eval(projectionCode.replace("%INDEX%", index).replace("%PROJECTIONTIME%", projectionTime))
   drawDot(2 * (Object.values(ext.exports)[0]) + (canvas.width / 2), -2 * (Object.values(ext.exports)[1]) + (canvas.height / 2), Math.abs(Math.round(Object.values(ext.exports)[2] % 360)), Math.round(Object.values(ext.exports)[3] * 100), Math.round(Object.values(ext.exports)[4] * 100))
 }
 
