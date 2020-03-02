@@ -52,6 +52,7 @@
             <div class="app-menubar-menu">
               <div class="app-menubar-menu-item" id="new">New</div>
               <div class="app-menubar-menu-item" style="display: none;" id="save">Save</div>
+              <div class="app-menubar-menu-item" style="display: none;" id="save-as">Save As</div>
               <div class="app-menubar-menu-item" id="open">Open</div>
               <div class="app-menubar-menu-item" style="display: none;" id="export">Export</div>
             </div>
@@ -107,6 +108,20 @@
         <div class="intro-buttons">
           <div class="button" id="intro-new">New</div>
           <div class="button" id="intro-open">Open</div>
+          <div class="intro-update">
+            <div class="intro-update-header">what's new: 1.0 final</div>
+            <div class="intro-update-container">
+              <div class="intro-update-info">
+                <ul>
+                  <li>Added introduction screen</li>
+                  <li>Added improved saving</li>
+                  <li>CTRL-S now saves</li>
+                  <li>Render: Implemented X and Y</li>
+                  <li>Render: Display render errors</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="graphical" style="display: none;" id="graphical">
@@ -124,6 +139,9 @@
             <div class="checkbox off" id="graphical-enable-expand"></div>
             <span>Expand</span>
           </div>
+        </div>
+        <div class="graphical-color">
+          
         </div>
         <div class="graphical-main">
           <div id="graphical-display" class="graphical-display"></div>

@@ -11,6 +11,8 @@
   padding: 1rem;
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .intro-buttons {
@@ -18,7 +20,7 @@
   padding: 1rem;
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-  width: 25rem;
+  width: auto;
 }
 
 .intro-brand {
@@ -35,7 +37,31 @@
 
 .intro-copyright {
   width: 13rem;
-  margin-top: 5rem;
+  margin-top: auto;
   font-size: 0.75rem;
   color: #999999;
+}
+
+.intro-update {
+  margin-top: 0.75rem;
+}
+
+.intro-update-header {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #cccccc;
+}
+
+.intro-update-button {
+  width: calc(100% - 0.7rem);
+  background-color: #333333;
+  padding: 0.35rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+.intro-file {
+  font-size: 0.9rem !important;
+  padding: 0;
 }

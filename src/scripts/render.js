@@ -130,9 +130,6 @@ function drawIndex(index,projectionTime) {
 }
 
 function setupRender() {
-  //TODO: Hookup VM2
-  //TODO: Don't render when we're not showing
-  //TODO: Render frame
   canvas = document.getElementById('render-canvas');
   canvasContext = canvas.getContext('2d');
 
@@ -144,7 +141,7 @@ function setupRender() {
 
 function startDrawing() {
   projectionCode = createSandboxFunction(convertToJs(fullExport().replace(/<br>/g, "\n")))
-  interval = setInterval(function() { drawFrame() }, 16)
+  interval = setInterval(function() { drawFrame() }, 33)
   // ...then set the internal size to match
   canvas.width  = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;

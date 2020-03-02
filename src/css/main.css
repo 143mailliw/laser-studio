@@ -166,3 +166,11 @@ body {
 .output-header-text {
   margin-right: auto;
 }
+
+ul {
+  margin-top: 0rem;
+  margin-left: 1.2rem;
+  margin-bottom: 0rem;
+  padding-left: 0rem;
+  padding-bottom: 0rem;
+}

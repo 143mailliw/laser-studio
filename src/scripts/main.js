@@ -2,6 +2,7 @@ const { dialog, shell } = require('electron').remote
 const remote = require('electron').remote;
 const fs = require('fs');
 
+let currentPath = null;
 let currentMode = 999; // 0: Graphical, 1: Editor, 2: Render, 999: Intro
 let startingFileObject = {
   projectionName: "Untitled",
@@ -33,6 +34,7 @@ let fileObject = JSON.parse(JSON.stringify(startingFileObject));
 function dismissIntro() {
   if(currentMode == 999) {
     document.getElementById("save").style.display = "block";
+    document.getElementById("save-as").style.display = "block";
     document.getElementById("export").style.display = "block";
     document.getElementById("edit-menu").style.display = "inline-block";
     document.getElementById("tabbar").style.display = "block";
@@ -61,9 +63,6 @@ function openDocument() {
   }).then(result => {
     if(!result.canceled) {
       filePath = result.filePaths[0]
-      if (!filePath.endsWith(".lse")) {
-        filePath = filePath + ".lse"
-      }
       result = fs.readFileSync(filePath)
       fileObject = JSON.parse(result);
       dismissIntro()
@@ -73,6 +72,34 @@ function openDocument() {
         stopDrawing()
         startDrawing()
       }
+      currentPath = filePath;
+    }
+  })
+}
+
+function saveDocument() {
+  if(!currentPath) {
+    saveDocumentAs()
+  } else {
+    fs.writeFileSync(filePath, JSON.stringify(fileObject));
+  }
+}
+
+function saveDocumentAs() {
+  dialog.showSaveDialog({
+    filters : [{
+      name: "Laser Studio Expression", 
+      extensions: ["lse"]
+    }],
+    properties: ["showOverwriteConfirmation"]
+  }).then(result => {
+    filePath = result.filePath
+    if (!filePath.endsWith(".lse")) {
+      filePath = filePath + ".lse"
+    }
+    if(!result.canceled) {
+      fs.writeFileSync(filePath, JSON.stringify(fileObject));
+      currentPath = filePath
     }
   })
 }
@@ -101,21 +128,7 @@ function setup() {
     }
   })
   document.getElementById("save").addEventListener("click", () => {
-    dialog.showSaveDialog({
-      filters : [{
-        name: "Laser Studio Expression", 
-        extensions: ["lse"]
-      }],
-      properties: ["showOverwriteConfirmation"]
-    }).then(result => {
-      filePath = result.filePath
-      if (!filePath.endsWith(".lse")) {
-        filePath = filePath + ".lse"
-      }
-      if(!result.canceled) {
-        fs.writeFileSync(filePath, JSON.stringify(fileObject));
-      }
-    })
+    saveDocument();
   })
   document.getElementById("open").addEventListener("click", openDocument)
   document.getElementById("new").addEventListener("click", newDocument)
@@ -201,6 +214,10 @@ function setup() {
     document.getElementById("export-dialog").style.display = "none";
     document.getElementById("dialog-close").style.display = "none";
   })
-  document.getElementById("intro-new").addEventListener("click", newDocument)
-  document.getElementById("intro-open").addEventListener("click", openDocument)
+  window.addEventListener('keydown', (e) => {
+    if(e.keyCode == 83 && e.ctrlKey && currentMode != 999) {
+      saveDocument();
+    }
+  })
+  document.getElementById("save-as").addEventListener("click", saveDocumentAs)
 }
