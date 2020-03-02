@@ -60,8 +60,8 @@ function createSandboxFunction(jsFunction) {
   projectionStartTime = Date.now() / 1000;
   return `let index = %INDEX%
 let count = 400
-let x = index % 20
-let y = Math.floor(index/20)
+let x = ((index % 20) - 10) * 10
+let y = Math.floor(index/20 - 9) * 10
 let fraction = index/count
 let pi = Math.PI
 let tau = Math.PI * 2
@@ -156,7 +156,7 @@ function stopDrawing() {
 }
 
 window.addEventListener('error', (errorEvent) => {
-  console.log(errorEvent);
+  err = errorEvent.error
   if(errorEvent.error.stack.toString().includes("drawIndex")) {
     const { lineno } = errorEvent;
     document.getElementById("render-error").style.display = "block"
