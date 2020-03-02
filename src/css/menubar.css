@@ -3,8 +3,8 @@
   top: 0;
   left: 0;
   background-color: #111111;
-  padding: 0.35rem;
-  padding-left: 0.5rem;
+  padding: 0.5rem;
+  padding-left: 0.75rem;
   -webkit-app-region: drag
 }
 
@@ -12,6 +12,7 @@
   display: inline-block;
   position: relative;
   cursor: default;
+  margin-left: 0.25rem;
   -webkit-app-region: no-drag;
 }
 
@@ -24,24 +25,26 @@
   background-color: #00000000;
   color: #00000000;
   position: absolute;
-  padding: 0.35rem 0;
+  padding: 0.5rem 0; 
   z-index: 10;
-  border-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
   -webkit-app-region: no-drag;
   transition: 0.2s;
-  margin-top: -0.5rem;
+  margin-top: -0.25rem;
   width: max-content;
+  min-width: 7.5rem;
 }
 
 .app-menubar-item:hover .app-menubar-menu {
   pointer-events: initial;
-  background-color: #333333;
+  background-color: #111111;
   color: #cccccc;
-  margin-top: 0;
+  margin-top: 0rem;
 }
 
 .app-menubar-menu-item {
-  padding: 0.15rem 0.5rem;
+  padding: 0.15rem 0.75rem;
   cursor: pointer;
 }
 
@@ -63,14 +66,14 @@
 
 .app-menubar-buttons {
   position: absolute;
-  top: 0.35rem;
-  right: 0.5rem;
+  top: 0.5rem;
+  right: 0.75rem;
   -webkit-app-region: no-drag;
 }
 
 .app-menubar-button {
   height: 0.9rem;
-  margin-left: 0.15rem;
+  margin-left: 0.25rem;
   color: #999999;
   display: inline-block;
   cursor: pointer;

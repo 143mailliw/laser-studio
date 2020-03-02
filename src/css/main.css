@@ -7,7 +7,7 @@ h1 {
   margin-left: -0.15rem;
 }
 
-input[type=text], input[type=password] {
+.ls-textbox {
   background: #333333;
   border-radius: 0.25rem;
   border-style: none;
@@ -20,11 +20,11 @@ input[type=text], input[type=password] {
     sans-serif;
 }
 
-input[type=text]:hover, input[type=password]:hover {
+.ls-textbox:hover {
   background: #444444;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+.ls-textbox:focus {
   background: #444444;
 }
 
@@ -61,7 +61,7 @@ body {
   border-color: #cccccc;
 }
 
-.button {
+.ls-button {
   display: inline-block;
   background: #333333;
   border-radius: 0.25rem;
@@ -71,7 +71,7 @@ body {
   width: 7rem;
 }
 
-.button:hover {
+.ls-button:hover {
   background: #444444;
 }
 

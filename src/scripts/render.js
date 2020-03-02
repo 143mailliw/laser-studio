@@ -154,6 +154,12 @@ function startDrawing() {
 function stopDrawing() {
   clearInterval(interval);
   document.getElementById("render-error").style.display = "none"
+
+  delete y_prime
+  delete x_prime
+  delete h
+  delete s
+  delete v
 }
 
 window.addEventListener('error', (errorEvent) => {
