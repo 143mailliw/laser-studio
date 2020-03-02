@@ -109,6 +109,7 @@ function setup() {
   exportSetup();
   textSetup();
   setupRender();
+  setupIntro();
 
   //setup toolbar
   document.getElementById("clear").addEventListener("click", () => {

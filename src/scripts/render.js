@@ -105,6 +105,10 @@ function calculateHSL(h, s, v){
 
 function drawDot(x, y, h, s, v) {
   if(v != 0) {
+    x = x || 0;
+    y = y || 0;
+    h = h || 0;
+    v = v || 0;
     let hsl = calculateHSL(h, s, v)
     let ctx = canvasContext
     ctx.fillStyle = "hsl(" + hsl.h.toString() + "," + hsl.s.toString() + "%," + hsl.l.toString() + "%)";
