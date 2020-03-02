@@ -5,19 +5,6 @@ let canvasContext = null
 let ext = {};
 let projectionStartTime = null;
 
-const { NodeVM } = require( 'vm2' );
-const vm = new NodeVM( {
-  console: 'inherit',
-  // pass our declared ext variable to the sandbox
-  sandbox: { ext },
-  require: {
-    external: true,
-    builtin: ['fs', 'path'],
-    root: './',
-  },
-} );
-
-
 function convertToJs(laserCode) {
   javaCode = laserCode.replace(/'/g , "_prime");
   javaCode = javaCode.replace(/asin\(/g, "Math.abin(")
@@ -38,21 +25,10 @@ function convertToJs(laserCode) {
   javaCode = javaCode.replace(/abs\(/g,"Math.abs(");
   javaCode = javaCode.replace(/rand\(/g,"Math.random(");
   javaCode = javaCode.replace(/if\(/g,"towerIf(");
-  javaCode = javaCode.replace(/#/g,"//")
-
-  javaCode = javaCode.replace(/[0-9]Math/, function (subStr) {
-    splitString = subStr.split("M")
-    return splitString[0] + " * Math"
-  })
-
-  javaCode = javaCode.replace(/[0-9]towerIf/, function (subStr) {
-    splitString = subStr.split("t")
-    return splitString[0] + " * towerIf"
-  })
-
-  javaCode = javaCode.replace(/[0-9]lerp/, function (subStr) {
-    splitString = subStr.split("l")
-    return splitString[0] + " * lerp"
+  javaCode = javaCode.replace(/#/g,"//");
+  javaCode = javaCode.replace(/\^/g, "**")
+  javaCode = javaCode.replace(/[0-9](?=[A-Za-z(])/g, function (subStr) {
+    return subStr + "*"
   })
 
   return javaCode
@@ -87,57 +63,35 @@ function render() {
 ext.exports = render()`
 }
 
-function HSLToHex(h,s,l) {
-  s /= 100;
-  l /= 100;
+function calculateHSL(h, s, v){
+  // determine the lightness in the range [0,100]
+  var l = (2 - s / 100) * v / 2;
 
-  let c = (1 - Math.abs(2 * l - 1)) * s,
-      x = c * (1 - Math.abs((h / 60) % 2 - 1)),
-      m = l - c/2,
-      r = 0,
-      g = 0,
-      b = 0;
+  // store the HSL components
+  hsl =
+    {
+      'h' : h,
+      's' : s * v / (l < 50 ? l * 2 : 200 - l * 2),
+      'l' : l
+    };
 
-  if (0 <= h && h < 60) {
-    r = c; g = x; b = 0;
-  } else if (60 <= h && h < 120) {
-    r = x; g = c; b = 0;
-  } else if (120 <= h && h < 180) {
-    r = 0; g = c; b = x;
-  } else if (180 <= h && h < 240) {
-    r = 0; g = x; b = c;
-  } else if (240 <= h && h < 300) {
-    r = x; g = 0; b = c;
-  } else if (300 <= h && h < 360) {
-    r = c; g = 0; b = x;
-  }
-  // Having obtained RGB, convert channels to hex
-  r = Math.round((r + m) * 255).toString(16);
-  g = Math.round((g + m) * 255).toString(16);
-  b = Math.round((b + m) * 255).toString(16);
+  // correct a division-by-zero error
+  if (isNaN(hsl.s)) hsl.s = 0;
 
-  // Prepend 0s, if necessary
-  if (r.length == 1)
-    r = "0" + r;
-  if (g.length == 1)
-    g = "0" + g;
-  if (b.length == 1)
-    b = "0" + b;
-
-  return "#" + r + g + b;
+  return (hsl);
 }
 
-function drawDot(x, y, color) {
-  if(color == "#000000") {
-    return
+function drawDot(x, y, h, s, v) {
+  if(v != 0) {
+    let hsl = calculateHSL(h, s, v)
+    let ctx = canvasContext
+    ctx.fillStyle = "hsl(" + hsl.h.toString() + "," + hsl.s.toString() + "%," + hsl.l.toString() + "%)";
+    ctx.strokeStyle = "hsl(" + hsl.h.toString() + "," + hsl.s.toString() + "%," + hsl.l.toString() + "%)";
+    ctx.beginPath();
+    ctx.arc(x, y, 1.5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
   }
-  let ctx = canvasContext
-  ctx.fillStyle = color;
-  ctx.strokeStyle = color;
-  ctx.beginPath();
-  ctx.arc(x, y, 2.5, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
 }
 
 function drawFrame() {
@@ -149,8 +103,8 @@ function drawFrame() {
 }
 
 function drawIndex(index,projectionTime) {
-  vm.run(projectionCode.replace("%INDEX%", index).replace("%X%", 1).replace("%Y%", 1).replace("%PROJECTIONTIME%", projectionTime))
-  drawDot(4 * (Object.values(ext.exports)[0]) + 400, -4 * (Object.values(ext.exports)[1]) + 400, HSLToHex(Object.values(ext.exports)[2] * 360, Object.values(ext.exports)[3] * 100, Object.values(ext.exports)[4] * 100))
+  eval(projectionCode.replace("%INDEX%", index).replace("%X%", 1).replace("%Y%", 1).replace("%PROJECTIONTIME%", projectionTime))
+  drawDot(2 * (Object.values(ext.exports)[0]) + (canvas.width / 2), -2 * (Object.values(ext.exports)[1]) + (canvas.height / 2), Math.abs(Math.round(Object.values(ext.exports)[2] % 360)), Math.round(Object.values(ext.exports)[3] * 100), Math.round(Object.values(ext.exports)[4] * 100))
 }
 
 function setupRender() {
@@ -159,11 +113,19 @@ function setupRender() {
   //TODO: Render frame
   canvas = document.getElementById('render-canvas');
   canvasContext = canvas.getContext('2d');
+
+  window.addEventListener("resize", (e) => {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  })
 }
 
 function startDrawing() {
   projectionCode = createSandboxFunction(convertToJs(fullExport().replace(/<br>/g, "\n")))
-  interval = setInterval(function() { drawFrame() }, 33)
+  interval = setInterval(function() { drawFrame() }, 16)
+  // ...then set the internal size to match
+  canvas.width  = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
 }
 
 function stopDrawing() {

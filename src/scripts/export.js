@@ -49,7 +49,7 @@ function createGraphicsExpression() {
     outputy = outputy + ")"
   }
 
-  return "x' = (" + outputx + ");<br><br>y' = (-" + outputy + ");<br><br>h = 0;<br>s = 1;<br>v = if(index < " + (activeCount + 2) + ",1,0);"
+  return "x' = (" + outputx + ");<br><br>y' = (-" + outputy + ");<br><br>h = 0;<br>s = 1;<br>v = if(index < " + (activeCount) + ",1,0);"
 }
 
 function createEffectsExpression() {

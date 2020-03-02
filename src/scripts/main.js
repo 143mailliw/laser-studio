@@ -2,7 +2,7 @@ const { dialog, shell } = require('electron').remote
 const remote = require('electron').remote;
 const fs = require('fs');
 
-let currentMode = 0; // 0: Graphical, 1: Editor, 999: Intro
+let currentMode = 0; // 0: Graphical, 1: Editor, 2: Render, 999: Intro
 let fileObject = {
   projectionName: "Untitled",
   effects: { },
@@ -85,6 +85,10 @@ function setup() {
         fileObject = JSON.parse(result);
         renderGraphicalDocument();
         editor.setValue(fileObject.editor.text)
+        if(currentMode == 2) {
+          stopDrawing()
+          startDrawing()
+        }
       }
     })
   })
@@ -132,6 +136,8 @@ function setup() {
 
     editor.layout()
     stopDrawing()
+
+    currentMode = 1;
   })
   document.getElementById("graphical-tab").addEventListener("click", (e) => {
     e.target.className = "tabbar-item tabbar-item-active"
@@ -147,6 +153,8 @@ function setup() {
     document.getElementById("menu-edit-text").style.display = "none"
 
     stopDrawing()
+
+    currentMode = 0;
   })
   document.getElementById("render-tab").addEventListener("click", (e) => {
     e.target.className = "tabbar-item tabbar-item-active"
@@ -160,7 +168,10 @@ function setup() {
 
     document.getElementById("text").style.display = "none"
     document.getElementById("menu-edit-text").style.display = "none"
+
     startDrawing()
+
+    currentMode = 2;
   })
   document.getElementById("close").addEventListener("click", (e) => {
     var window = remote.getCurrentWindow();
