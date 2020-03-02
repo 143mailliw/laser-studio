@@ -5,8 +5,30 @@ let canvasContext = null
 let ext = {};
 let projectionStartTime = null;
 
+function reverseError(errorText) {
+  let laserError = errorText.replace(/_prime/g , "'");
+  laserError = laserError.replace(/Math.sin\(/g, "sin(")
+  laserError = laserError.replace(/Math.asin\(/g, "asin(")
+  laserError = laserError.replace(/Math.cos\(/g, "cos(")
+  laserError = laserError.replace(/Math.acos\(/g, "acos(")
+  laserError = laserError.replace(/Math.tan\(/g, "tan(")
+  laserError = laserError.replace(/Math.aban\(/g, "atan(")
+  laserError = laserError.replace(/Math.sqrt\(/g,"sqrt(");
+  laserError = laserError.replace(/Math.max\(/g,"max(");
+  laserError = laserError.replace(/Math.min\(/g,"min(");
+  laserError = laserError.replace(/Math.floor\(/g,"floor(");
+  laserError = laserError.replace(/Math.ceil\(/g,"ceil(");
+  laserError = laserError.replace(/Math.round\(/g,"round(");
+  laserError = laserError.replace(/Math.abs\(/g,"abs(");
+  laserError = laserError.replace(/Math.random\(/g,"rand(");
+  laserError = laserError.replace(/towerIf\(/g,"if(");
+  laserError = laserError.replace(/\*\*/g, "^");
+
+  return laserError;
+}
+
 function convertToJs(laserCode) {
-  javaCode = laserCode.replace(/'/g , "_prime");
+  let javaCode = laserCode.replace(/'/g , "_prime");
   javaCode = javaCode.replace(/asin\(/g, "Math.abin(")
   javaCode = javaCode.replace(/sin\(/g, "Math.sin(")
   javaCode = javaCode.replace(/Math.abin\(/g, "Math.asin(")
@@ -26,7 +48,7 @@ function convertToJs(laserCode) {
   javaCode = javaCode.replace(/rand\(/g,"Math.random(");
   javaCode = javaCode.replace(/if\(/g,"towerIf(");
   javaCode = javaCode.replace(/#/g,"//");
-  javaCode = javaCode.replace(/\^/g, "**")
+  javaCode = javaCode.replace(/\^/g, "**");
   javaCode = javaCode.replace(/[0-9](?=[A-Za-z(])/g, function (subStr) {
     return subStr + "*"
   })
@@ -130,4 +152,19 @@ function startDrawing() {
 
 function stopDrawing() {
   clearInterval(interval);
+  document.getElementById("render-error").style.display = "none"
 }
+
+window.addEventListener('error', (errorEvent) => {
+  console.log(errorEvent);
+  if(errorEvent.error.stack.toString().includes("drawIndex")) {
+    const { lineno } = errorEvent;
+    document.getElementById("render-error").style.display = "block"
+    document.getElementById("render-error").innerText = "Error: " + reverseError(err.message) + " (ln " + (Number(lineno) - 19) + ")"
+    clearInterval(interval);
+  } else {
+    console.log(err)
+  }
+  // Don't pollute the console with additional info:
+  errorEvent.preventDefault();
+});

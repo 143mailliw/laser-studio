@@ -12,3 +12,14 @@
   width: 100%;
   height: 100%;
 }
+
+.render-error {
+  z-index: 2;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  border: solid #993333 0.1rem;
+  border-radius: 0.25rem;
+  background-color: #cc3333;
+  padding: 0.5rem;
+}
