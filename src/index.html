@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="css/tabbar.css">
     <link rel="stylesheet" href="css/text.css">
     <link rel="stylesheet" href="css/render.css">
-    <link href="fa/css/all.css" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/intro.css">
+    <link rel="stylesheet" href="fa/css/all.css"> 
   </head>
   <body onload="setup()">
     <div class="app">
@@ -50,12 +51,12 @@
             <span class="app-menubar-item-text">File</span>
             <div class="app-menubar-menu">
               <div class="app-menubar-menu-item" id="new">New</div>
-              <div class="app-menubar-menu-item" id="save">Save</div>
+              <div class="app-menubar-menu-item" style="display: none;" id="save">Save</div>
               <div class="app-menubar-menu-item" id="open">Open</div>
-              <div class="app-menubar-menu-item" id="export">Export</div>
+              <div class="app-menubar-menu-item" style="display: none;" id="export">Export</div>
             </div>
           </div>
-          <div class="app-menubar-item">
+          <div class="app-menubar-item" id="edit-menu" style="display: none;">
             <span class="app-menubar-item-text">Edit</span>
             <div class="app-menubar-menu">
               <div id="menu-edit-graphical">
@@ -89,12 +90,26 @@
           </div>
         </div>
       </div>
-      <div class="tabbar">
+      <div class="tabbar" id="tabbar" style="display: none;">
         <div class="tabbar-item tabbar-item-active" id="graphical-tab">graphical</div>
         <div class="tabbar-item" id="text-tab">text</div>
         <div class="tabbar-item" id="render-tab">render (experimental)</div>
       </div>
-      <div class="graphical" id="graphical">
+      <div class="intro" id="intro">
+        <div class="intro-info">
+          <div class="intro-brand">Laser Studio</div class="intro-brand">
+          <div class="intro-version">1.0 beta</div>
+          <div class="intro-copyright">
+            Licensed under the Apache License 2.0<br>
+            © 2020 william341, Chrnan6710.
+          </div>
+        </div>
+        <div class="intro-buttons">
+          <div class="button" id="intro-new">New</div>
+          <div class="button" id="intro-open">Open</div>
+        </div>
+      </div>
+      <div class="graphical" style="display: none;" id="graphical">
         <div class="graphical-effects">
           <span class="graphical-effects-header">(legacy) effects</span>
           <div>

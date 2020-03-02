@@ -1,0 +1,41 @@
+.intro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+}
+
+.intro-info {
+  background-color: #333333;
+  padding: 1rem;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.intro-buttons {
+  background-color: #111111;
+  padding: 1rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  width: 25rem;
+}
+
+.intro-brand {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.intro-version {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #999999;
+}
+
+.intro-copyright {
+  width: 13rem;
+  margin-top: 5rem;
+  font-size: 0.75rem;
+  color: #999999;
+}

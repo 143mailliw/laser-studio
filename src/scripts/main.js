@@ -2,8 +2,8 @@ const { dialog, shell } = require('electron').remote
 const remote = require('electron').remote;
 const fs = require('fs');
 
-let currentMode = 0; // 0: Graphical, 1: Editor, 2: Render, 999: Intro
-let fileObject = {
+let currentMode = 999; // 0: Graphical, 1: Editor, 2: Render, 999: Intro
+let startingFileObject = {
   projectionName: "Untitled",
   effects: { },
   graphical: {
@@ -26,6 +26,55 @@ v = v
 
 # Effects code will be placed after your Text Editor code upon export.`
   }
+}
+
+let fileObject = JSON.parse(JSON.stringify(startingFileObject));
+
+function dismissIntro() {
+  if(currentMode == 999) {
+    document.getElementById("save").style.display = "block";
+    document.getElementById("export").style.display = "block";
+    document.getElementById("edit-menu").style.display = "inline-block";
+    document.getElementById("tabbar").style.display = "block";
+    document.getElementById("graphical").style.display = "block";
+    document.getElementById("intro").style.display = "none";
+    currentMode = 0
+  }
+}
+
+function newDocument() {
+  fileObject = JSON.parse(JSON.stringify(startingFileObject));
+  fileObject.graphical.lastUpdate = new Date()
+  fileObject.editor.lastUpdate = new Date()
+  dismissIntro();
+  editor.setValue(fileObject.editor.text)
+  renderGraphicalDocument();
+}
+
+function openDocument() {
+  dialog.showOpenDialog({
+    filters : [{
+      name: "Laser Studio Expression", 
+      extensions: ["lse"]
+    }],
+    properties: ["openFile"]
+  }).then(result => {
+    if(!result.canceled) {
+      filePath = result.filePaths[0]
+      if (!filePath.endsWith(".lse")) {
+        filePath = filePath + ".lse"
+      }
+      result = fs.readFileSync(filePath)
+      fileObject = JSON.parse(result);
+      dismissIntro()
+      renderGraphicalDocument();
+      editor.setValue(fileObject.editor.text)
+      if(currentMode == 2) {
+        stopDrawing()
+        startDrawing()
+      }
+    }
+  })
 }
 
 function setup() {
@@ -68,59 +117,8 @@ function setup() {
       }
     })
   })
-  document.getElementById("open").addEventListener("click", () => {
-    dialog.showOpenDialog({
-      filters : [{
-        name: "Laser Studio Expression", 
-        extensions: ["lse"]
-      }],
-      properties: ["openFile"]
-    }).then(result => {
-      filePath = result.filePaths[0]
-      if (!filePath.endsWith(".lse")) {
-        filePath = filePath + ".lse"
-      }
-      if(!result.canceled) {
-        result = fs.readFileSync(filePath)
-        fileObject = JSON.parse(result);
-        renderGraphicalDocument();
-        editor.setValue(fileObject.editor.text)
-        if(currentMode == 2) {
-          stopDrawing()
-          startDrawing()
-        }
-      }
-    })
-  })
-  document.getElementById("new").addEventListener("click", () => { 
-    fileObject = {
-      projectionName: "Untitled",
-      effects: { },
-      graphical: {
-        lastUpdate: new Date(),
-        width: 20,
-        height: 20,
-        indexObject: {},
-        colorObject: {}
-      },
-      editor: {
-        lastUpdate: new Date(),
-        text: `
-          # Graphical Editor code will be placed before your Text Editor code upon export.
-    
-          y' = y'
-          x' = x'
-    
-          h = h
-          s = s
-          v = v
-    
-          # Effects code will be placed after your Text Editor code upon export.
-        `
-      }
-    }
-    renderGraphicalDocument();
-  })
+  document.getElementById("open").addEventListener("click", openDocument)
+  document.getElementById("new").addEventListener("click", newDocument)
   document.getElementById("text-tab").addEventListener("click", (e) => {
     e.target.className = "tabbar-item tabbar-item-active"
     document.getElementById("graphical-tab").className = "tabbar-item"
@@ -134,6 +132,7 @@ function setup() {
     document.getElementById("menu-edit-graphical").style.display = "none"
     document.getElementById("graphical").style.display = "none"
 
+    editor.setValue(fileObject.editor.text)
     editor.layout()
     stopDrawing()
 
@@ -202,4 +201,6 @@ function setup() {
     document.getElementById("export-dialog").style.display = "none";
     document.getElementById("dialog-close").style.display = "none";
   })
+  document.getElementById("intro-new").addEventListener("click", newDocument)
+  document.getElementById("intro-open").addEventListener("click", openDocument)
 }
