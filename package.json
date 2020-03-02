@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron . --dev",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder -mwl"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +23,7 @@
   "build": {
     "appId": "me.william341.laserstudio",
     "mac": {
+      "target": "zip",
       "category": "public.app-category.developer-tools"
     },
     "win": {
@@ -30,7 +31,7 @@
       "publisherName": "william341"
     },
     "linux": {
-      "target": "AppImage -wl"
+      "target": "AppImage"
     }
   }
 }
