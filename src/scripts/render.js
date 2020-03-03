@@ -4,6 +4,7 @@ let canvas = null
 let canvasContext = null
 let ext = {};
 let projectionStartTime = null;
+let projectionRenderScale = 2;
 
 function reverseError(errorText) {
   let laserError = errorText.replace(/_prime/g , "'");
@@ -130,12 +131,22 @@ function drawFrame() {
 
 function drawIndex(index,projectionTime) {
   eval(projectionCode.replace("%INDEX%", index).replace("%PROJECTIONTIME%", projectionTime))
-  drawDot(2 * (Object.values(ext.exports)[0]) + (canvas.width / 2), -2 * (Object.values(ext.exports)[1]) + (canvas.height / 2), Math.abs(Math.round(Object.values(ext.exports)[2] % 360)), Math.round(Object.values(ext.exports)[3] * 100), Math.round(Object.values(ext.exports)[4] * 100))
+  drawDot(projectionRenderScale * (Object.values(ext.exports)[0]) + (canvas.width / 2), -1 * projectionRenderScale * (Object.values(ext.exports)[1]) + (canvas.height / 2), Math.abs(Math.round(Object.values(ext.exports)[2] % 360)), Math.round(Object.values(ext.exports)[3] * 100), Math.round(Object.values(ext.exports)[4] * 100))
 }
 
 function setupRender() {
   canvas = document.getElementById('render-canvas');
   canvasContext = canvas.getContext('2d');
+
+  document.getElementById("render-controls-plus").addEventListener("click", () => {
+    projectionRenderScale = projectionRenderScale < 10 ? (projectionRenderScale + 0.25) : projectionRenderScale;
+    document.getElementById("render-controls-zoom").innerText = projectionRenderScale.toString() + "x"
+  })
+
+  document.getElementById("render-controls-minus").addEventListener("click", () => {
+    projectionRenderScale = projectionRenderScale > 0.25 ? (projectionRenderScale - 0.25) : projectionRenderScale;
+    document.getElementById("render-controls-zoom").innerText = projectionRenderScale.toString() + "x"
+  })
 
   window.addEventListener("resize", (e) => {
     canvas.width  = canvas.offsetWidth;

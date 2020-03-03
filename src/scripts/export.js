@@ -1,31 +1,9 @@
-//https://gist.github.com/mjackson/5311256
-function rgbToHsl(r, g, b) {
-  r /= 255, g /= 255, b /= 255;
-
-  var max = Math.max(r, g, b), min = Math.min(r, g, b);
-  var h, s, l = (max + min) / 2;
-
-  if (max == min) {
-    h = s = 0; // achromatic
-  } else {
-    var d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-    switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      case b: h = (r - g) / d + 4; break;
-    }
-
-    h /= 6;
-  }
-
-  return [ h, s, l ];
-}
-
 function createGraphicsExpression() {
   let outputx = "";
   let outputy = "";
+  let outputh = "";
+  let outputs = "";
+  let outputv = "";
   let wide = fileObject.graphical.width;
   let tall = fileObject.graphical.height;
   let activeCount = 0;
@@ -37,19 +15,28 @@ function createGraphicsExpression() {
       }
       outputx = outputx + "if(index == "+activeCount.toString()+","+(((i%wide)+0.5)-(parseInt(tall)/2)).toString()+","
       outputy = outputy + "if(index == "+activeCount.toString()+","+((Math.floor(i/wide)+0.5)-(parseInt(wide)/2)).toString()+","
+      outputh = outputh + "if(index == "+activeCount.toString()+","+Math.round(fileObject.graphical.colorObject["dot-" + i].hsv[0])+","
+      outputs = outputs + "if(index == "+activeCount.toString()+","+(Math.round(fileObject.graphical.colorObject["dot-" + i].hsv[1]) / 100)+","
+      outputv = outputv + "if(index == "+activeCount.toString()+","+(Math.round(fileObject.graphical.colorObject["dot-" + i].hsv[2]) / 100)+","
       activeCount++
     }
   }
 
   outputx = outputx + "0"
   outputy = outputy + "0"
+  outputh = outputh + "0"
+  outputs = outputs + "0"
+  outputv = outputv + "0"
 
   for(let i=0;i<activeCount;i++) {
     outputx = outputx + ")"
     outputy = outputy + ")"
+    outputh = outputh + ")"
+    outputs = outputs + ")"
+    outputv = outputv + ")"
   }
 
-  return "x' = (" + outputx + ");<br><br>y' = (-" + outputy + ");<br><br>h = 0;<br>s = 1;<br>v = if(index < " + (activeCount) + ",1,0);"
+  return "x' = (" + outputx + ");<br><br>y' = (-" + outputy + ");<br><br>h = " + outputh + ";<br>s = " + outputs + ";<br>v = " + outputv +";"
 }
 
 function createEffectsExpression() {

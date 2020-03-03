@@ -8,6 +8,7 @@
     <script type="text/javascript" src="./scripts/render.js"></script>
     <script type="text/javascript" src="./scripts/intro.js"></script>
     <script type="text/javascript" src="./scripts/copyToClipboard-min.js"></script>
+    <script type="text/javascript" src="./scripts/pickr.min.js"></script>
     <link rel="stylesheet" href="css/graphical.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/menubar.css">
@@ -15,7 +16,8 @@
     <link rel="stylesheet" href="css/text.css">
     <link rel="stylesheet" href="css/render.css">
     <link rel="stylesheet" href="css/intro.css">
-    <link rel="stylesheet" href="fa/css/all.css"> 
+    <link rel="stylesheet" href="fa/css/all.css">
+    <link rel="stylesheet" href="css/nano.min.css">
   </head>
   <body onload="setup()">
     <div class="app">
@@ -117,9 +119,12 @@
                   <li>Added introduction screen</li>
                   <li>Added improved saving</li>
                   <li>CTRL-S now saves</li>
+                  <li>Various GUI polish</li>
                   <li>Render: Implemented X and Y</li>
                   <li>Render: Display render errors</li>
                   <li>Render: Fixed an issue with null outputs</li>
+                  <li>Render: Allow zooming in and out</li>
+                  <li>Graphical: Added color support</li>
                 </ul>
               </div>
             </div>
@@ -143,7 +148,7 @@
           </div>
         </div>
         <div class="graphical-color">
-          
+          <div class="color-picker" id="color-picker"></div>
         </div>
         <div class="graphical-main">
           <div id="graphical-display" class="graphical-display"></div>
@@ -154,6 +159,11 @@
       </div>
       <div class="render" id="render" style="display: none;">
         <canvas class="render-canvas" id="render-canvas" width="800" height="800"></canvas>
+        <div class="render-controls">
+          <div class="render-controls-plus" id="render-controls-plus"><i class="fas fa-plus"></i></div>
+          <div class="render-controls-minus" id="render-controls-minus"><i class="fas fa-minus"></i></div>
+          <div class="render-controls-zoom" id="render-controls-zoom">2x</div>
+        </div>
         <div class="render-error" id="render-error" style="display: none;">Error: TestError (ln 0)</div>
       </div>
     </div>

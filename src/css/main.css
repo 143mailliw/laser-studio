@@ -174,3 +174,7 @@ ul {
   padding-left: 0rem;
   padding-bottom: 0rem;
 }
+
+div {
+  user-select: none;
+}
