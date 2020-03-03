@@ -20,7 +20,7 @@
   padding: 1rem;
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
-  width: auto;
+  width: max-content;
 }
 
 .intro-brand {
