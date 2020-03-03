@@ -37,6 +37,10 @@ function renderGraphicalDocument() {
           fileObject.graphical.colorObject[e.target.id] = {hex: color.toHEXA().toString(), hsv: color.toHSVA()}
           console.log(fileObject.graphical.colorObject[e.target.id]);
           e.target.style.backgroundColor = fileObject.graphical.colorObject[e.target.id].hex
+          if(e.target.style.backgroundColor == "#000000") {
+            fileObject.graphical.indexObject[e.target.id] = false
+            delete fileObject.graphical.colorObject[e.target.id]
+          }
           e.target.className = "graphical-dot graphical-on"
         }
       })
