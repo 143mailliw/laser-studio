@@ -310,7 +310,7 @@ function textSetup() {
     	}
     });
 
-    editor = monaco.editor.create(document.getElementById('text-container'), {
+    editor = monaco.editor.create(document.getElementById('monaco-container'), {
       theme: "laser-studio",
       value: fileObject.editor.text,
       language: 'tuexpression'

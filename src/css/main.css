@@ -178,3 +178,8 @@ ul {
 div {
   user-select: none;
 }
+
+.flex-editor-container {
+  width: 100%;
+  height: 100%;
+}
