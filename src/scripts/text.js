@@ -3,6 +3,7 @@ const amdLoader = require('../node_modules/monaco-editor/min/vs/loader.js');
 const amdRequire = amdLoader.require;
 const amdDefine = amdLoader.require.define;
 let editor = null;
+let currentEditorType = 0; // 0 for Expression, 1 for Effect, 2 for Function
 
 let tokens = {
   // Set defaultToken to invalid to see what you do not tokenize yet

@@ -1,9 +1,42 @@
 .text {
   width: 100%;
   height: 100%;
+  display: flex;
 }
 
 .text-container {
   width: 100%;
   height: 100%;
+}
+
+.text-sidebar {
+  padding-top: 0.55rem;
+  overflow-y: hidden;
+  max-width: 15rem;
+  min-width: 15rem;
+  height: 100%;
+  background-color: #272727;
+  margin: 0;
+}
+
+.text-sidebar-header {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 0.25rem;
+  margin-left: 0.75rem;
+}
+
+.text-sidebar-item {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.text-sidebar-item:hover {
+  background-color: #303030;
+}
+
+.text-sidebar-item-active {
+  background-color: #333333;
 }

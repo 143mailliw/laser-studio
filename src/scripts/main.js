@@ -5,7 +5,6 @@ const fs = require('fs');
 let currentPath = null;
 let currentMode = 999; // 0: Graphical, 1: Editor, 2: Render, 999: Intro
 let startingFileObject = {
-  projectionName: "Untitled",
   effects: { },
   graphical: {
     lastUpdate: new Date(),
@@ -51,6 +50,8 @@ function newDocument() {
   dismissIntro();
   editor.setValue(fileObject.editor.text)
   renderGraphicalDocument();
+  document.getElementById("text-sidebar-expitem").innerText = "Untitled"
+  document.getElementById("text-sidebar-expitem").className = "text-sidebar-item text-sidebar-item-active"
 }
 
 function openDocument() {
@@ -62,9 +63,10 @@ function openDocument() {
     properties: ["openFile"]
   }).then(result => {
     if(!result.canceled) {
-      filePath = result.filePaths[0]
+      console.log(result)
+      let filePath = result.filePaths[0]
       result = fs.readFileSync(filePath)
-      fileObject = JSON.parse(result);
+      let fileObject = JSON.parse(result);
       dismissIntro()
       renderGraphicalDocument();
       editor.setValue(fileObject.editor.text)
@@ -73,6 +75,10 @@ function openDocument() {
         startDrawing()
       }
       currentPath = filePath;
+      let fileName = filePath.split("/");
+      let fileNameWindows = fileName[fileName.length - 1].split("\\");
+      document.getElementById("text-sidebar-expitem").innerText = fileNameWindows[fileNameWindows.length - 1].slice(0, -4)
+      document.getElementById("text-sidebar-expitem").className = "text-sidebar-item text-sidebar-item-active"
     }
   })
 }
@@ -138,7 +144,7 @@ function setup() {
     document.getElementById("graphical-tab").className = "tabbar-item"
     document.getElementById("render-tab").className = "tabbar-item"
 
-    document.getElementById("text").style.display = "block"
+    document.getElementById("text").style.display = "flex"
     document.getElementById("menu-edit-text").style.display = "block"
 
     document.getElementById("render").style.display = "none"
