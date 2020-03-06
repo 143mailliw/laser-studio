@@ -3,7 +3,7 @@ const remote = require('electron').remote;
 const fs = require('fs');
 
 let currentPath = null;
-let currentMode = 999; // 0: Graphical, 1: Editor, 2: Render, 3: Nodes, 4: Effects, 5: Functions, 999: Intro
+let currentMode = 999; // 0: Graphical, 1: Editor, 2: Render, 999: Intro
 let startingFileObject = {
   projectionName: "Untitled",
   effects: { },
@@ -110,10 +110,6 @@ function setup() {
   textSetup();
   setupRender();
   setupIntro();
-  setupTabbar();
-  setupNodes();
-  setupFunctions();
-  setupEffects();
 
   //setup toolbar
   document.getElementById("clear").addEventListener("click", () => {
@@ -137,6 +133,59 @@ function setup() {
   })
   document.getElementById("open").addEventListener("click", openDocument)
   document.getElementById("new").addEventListener("click", newDocument)
+  document.getElementById("text-tab").addEventListener("click", (e) => {
+    e.target.className = "tabbar-item tabbar-item-active"
+    document.getElementById("graphical-tab").className = "tabbar-item"
+    document.getElementById("render-tab").className = "tabbar-item"
+
+    document.getElementById("text").style.display = "block"
+    document.getElementById("menu-edit-text").style.display = "block"
+
+    document.getElementById("render").style.display = "none"
+
+    document.getElementById("menu-edit-graphical").style.display = "none"
+    document.getElementById("graphical").style.display = "none"
+
+    editor.setValue(fileObject.editor.text)
+    editor.layout()
+    stopDrawing()
+
+    currentMode = 1;
+  })
+  document.getElementById("graphical-tab").addEventListener("click", (e) => {
+    e.target.className = "tabbar-item tabbar-item-active"
+    document.getElementById("text-tab").className = "tabbar-item"
+    document.getElementById("render-tab").className = "tabbar-item"
+
+    document.getElementById("menu-edit-graphical").style.display = "block"
+    document.getElementById("graphical").style.display = "block"
+
+    document.getElementById("render").style.display = "none"
+
+    document.getElementById("text").style.display = "none"
+    document.getElementById("menu-edit-text").style.display = "none"
+
+    stopDrawing()
+
+    currentMode = 0;
+  })
+  document.getElementById("render-tab").addEventListener("click", (e) => {
+    e.target.className = "tabbar-item tabbar-item-active"
+    document.getElementById("text-tab").className = "tabbar-item"
+    document.getElementById("graphical-tab").className = "tabbar-item"
+
+    document.getElementById("render").style.display = "block"
+
+    document.getElementById("menu-edit-graphical").style.display = "none"
+    document.getElementById("graphical").style.display = "none"
+
+    document.getElementById("text").style.display = "none"
+    document.getElementById("menu-edit-text").style.display = "none"
+
+    startDrawing()
+
+    currentMode = 2;
+  })
   document.getElementById("close").addEventListener("click", (e) => {
     var window = remote.getCurrentWindow();
     window.close();

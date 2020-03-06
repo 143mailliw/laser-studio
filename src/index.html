@@ -7,10 +7,6 @@
     <script type="text/javascript" src="./scripts/export.js"></script>
     <script type="text/javascript" src="./scripts/render.js"></script>
     <script type="text/javascript" src="./scripts/intro.js"></script>
-    <script type="text/javascript" src="./scripts/tabbar.js"></script>
-    <script type="text/javascript" src="./scripts/nodes.js"></script>
-    <script type="text/javascript" src="./scripts/functions.js"></script>
-    <script type="text/javascript" src="./scripts/effects.js"></script>
     <script type="text/javascript" src="./scripts/copyToClipboard-min.js"></script>
     <script type="text/javascript" src="./scripts/pickr.min.js"></script>
     <link rel="stylesheet" href="css/graphical.css">
@@ -20,9 +16,6 @@
     <link rel="stylesheet" href="css/text.css">
     <link rel="stylesheet" href="css/render.css">
     <link rel="stylesheet" href="css/intro.css">
-    <link rel="stylesheet" href="css/functions.css">
-    <link rel="stylesheet" href="css/effects.css">
-    <link rel="stylesheet" href="css/nodes.css">
     <link rel="stylesheet" href="fa/css/all.css">
     <link rel="stylesheet" href="css/nano.min.css">
   </head>
@@ -104,9 +97,6 @@
       <div class="tabbar" id="tabbar" style="display: none;">
         <div class="tabbar-item tabbar-item-active" id="graphical-tab">graphical</div>
         <div class="tabbar-item" id="text-tab">text</div>
-        <div class="tabbar-item" id="nodes-tab">nodes</div>
-        <div class="tabbar-item" id="effects-tab">effects</div>
-        <div class="tabbar-item" id="functions-tab">functions</div>
         <div class="tabbar-item" id="render-tab">render (experimental)</div>
       </div>
       <div class="intro" id="intro">
@@ -157,19 +147,8 @@
           <div id="graphical-display" class="graphical-display"></div>
         </div>
       </div>
-      <div class="nodes" id="nodes" style="display: none;">
-        <div>nodes</div>
-      </div>
       <div class="text" id="text" style="display: none;">
-        <div class="text-container" id="text-monaco-container">
-          <div class="monaco-container" id="monaco-container"></div>
-        </div>
-      </div>
-      <div class="effects" id="effects" style="display: none;">
-        <div>effects</div>
-      </div>
-      <div class="functions" id="functions" style="display: none;">
-        <div>functions</div>
+        <div class="text-container" id="text-container"></div>
       </div>
       <div class="render" id="render" style="display: none;">
         <canvas class="render-canvas" id="render-canvas" width="800" height="800"></canvas>

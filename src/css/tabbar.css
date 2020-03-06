@@ -6,7 +6,7 @@
 .tabbar-item {
   display: inline-block;
   position: relative;
-  cursor: pointer;
+  cursor: default;
   font-size: 0.75rem;
   font-weight: bold;
   text-transform: uppercase;
