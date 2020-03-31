@@ -25,6 +25,9 @@
   font-weight: bold;
   margin: 0.25rem;
   margin-left: 0.75rem;
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+  position: relative;
 }
 
 .text-sidebar-item {
@@ -39,4 +42,30 @@
 
 .text-sidebar-item-active {
   background-color: #333333;
+}
+
+.text-add-menu {
+  color: #999999;
+  position: absolute;
+  right: 0.35rem;
+  display: inline-block;
+}
+
+.text-add-file {
+  display: inline-block;
+  transition: 0.2s;
+}
+
+.text-add-file:hover {
+  color: #ffffff;
+}
+
+.text-add-new {
+  display: inline-block;
+  padding-left: 0.10rem;
+  transition: 0.2s;
+}
+
+.text-add-new:hover {
+  color: #ffffff;
 }
