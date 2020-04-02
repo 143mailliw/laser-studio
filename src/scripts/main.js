@@ -5,8 +5,8 @@ const fs = require('fs');
 let currentPath = null;
 let currentMode = 999; // 0: Graphical, 1: Editor, 2: Render, 999: Intro
 let startingFileObject = {
-  effects: { effectsArray: [] },
-  snippets: { snippetsArray: [] },
+  effects: { effectsArray: {} },
+  snippets: { snippetsArray: {} },
   graphical: {
     lastUpdate: new Date(),
     width: 20,
@@ -46,9 +46,12 @@ function dismissIntro() {
 
 function resetEditorFromObject() {
   let effectButtonsElements = Object.values(effectButtons);
-  for(let i = 0; i < effectButtonsElements.length; i++) {
-    effectButtonsElements[i].parentNode.removeChild(effectButtonsElements[i]);
+  if(effectButtonsElements > 0) {
+    for(let i = 0; i < effectButtonsElements.length; i++) {
+      effectButtonsElements[i].parentNode.removeChild(effectButtonsElements[i]);
+    }
   }
+  regenerateEffectsMenu();
   changeDocument(0);
   changeTextActiveItem(document.getElementById("text-sidebar-expitem"));
 }
@@ -67,10 +70,10 @@ function newDocument() {
 function upgradeFileObject() {
   //upgrade LSE files v1.0 up to 2.0
   if(!fileObject.effects.effectsArray) {
-    fileObject.effects.effectsArray = [];
+    fileObject.effects.effectsArray = {};
   }
   if(!fileObject.snippets) {
-    fileObject.snippets = { snippetsArray: [] };
+    fileObject.snippets = { snippetsArray: {} };
   }
 }
 
