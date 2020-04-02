@@ -80,11 +80,16 @@ function changeDocument(editorType, id) {
   if(editorType === 0) {
     currentEditorType = 0;
     currentEditorDocument = "expression";
+    document.getElementById("text-sidebar-effect-properties").style.display = "none";
+    document.getElementById("text-sidebar-expression-properties").style.display = "block";
     editor.setValue(fileObject.editor.text);
   }
   if(editorType === 1) {
     currentEditorType = 1;
     currentEditorDocument = id;
+    document.getElementById("text-sidebar-effect-properties").style.display = "block";
+    document.getElementById("text-sidebar-expression-properties").style.display = "none";
+    setupEffectsProperties(fileObject.effects.effectsArray[id]);
     editor.setValue(fileObject.effects.effectsArray[id].text);
   }
 }

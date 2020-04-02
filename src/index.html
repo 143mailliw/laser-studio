@@ -119,9 +119,9 @@
               <div class="intro-update-info">
                 <ul>
                   <li>Unfinished: Effects system</li>
-                  <li>Unfinished: Functions system</li>
+                  <li>Unfinished: Snippets system</li>
                   <li>Not yet started: Increase/decrease dot size</li>
-                  <li>Not yet started: Improved support for variable<br> declarations in the transpiler.</li>
+                  <li>Not yet started: Improved support for variable<br>declarations in the transpiler.</li>
                   <li>Unfinished: Allow disabling compiler features</li>
                 </ul>
               </div>
@@ -195,16 +195,27 @@
               <div id="text-sidebar-expression-properties">
                 <div class="text-sidebar-header">export options</div>
                 <div class="text-sidebar-properties-row">
-                  <div class="text-sidebar-properties-header">disableGraphics</div>
+                  <div class="text-sidebar-properties-header">DisableGraphics</div>
                   <div class="text-sidebar-properties-option"><div class="checkbox off" id="properties-disable-graphics"></div></div>
                 </div>
                 <div class="text-sidebar-properties-row">
-                  <div class="text-sidebar-properties-header">disableEffects</div>
+                  <div class="text-sidebar-properties-header">DisableEffects</div>
                   <div class="text-sidebar-properties-option"><div class="checkbox off" id="properties-disable-effects"></div></div>
                 </div>
                 <div class="text-sidebar-properties-row">
-                  <div class="text-sidebar-properties-header">disableSnippets</div>
+                  <div class="text-sidebar-properties-header">DisableSnippets</div>
                   <div class="text-sidebar-properties-option"><div class="checkbox off" id="properties-disable-snippets"></div></div>
+                </div>
+              </div>
+              <div id="text-sidebar-effect-properties" style="display: none">
+                <div class="text-sidebar-header">effect details</div>
+                <div class="text-sidebar-properties-row">
+                  <div class="text-sidebar-properties-header">Name</div>
+                  <div class="text-sidebar-properties-option"><input type="text" class="text-sidebar-properties-text" id="properties-effect-name"></div>
+                </div>
+                <div class="text-sidebar-properties-row">
+                  <div class="text-sidebar-properties-header">ParameterCount</div>
+                  <div class="text-sidebar-properties-option" id="properties-effect-pcount">0</div>
                 </div>
               </div>
             </div>
