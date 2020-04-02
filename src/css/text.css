@@ -10,6 +10,9 @@
 }
 
 .text-sidebar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   padding-top: 0.55rem;
   overflow-y: hidden;
   max-width: 15rem;
@@ -68,4 +71,43 @@
 
 .text-add-new:hover {
   color: #ffffff;
+}
+
+.text-sidebar-files {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.text-sidebar-properties {
+  border-top: #444444 solid 1px;
+  margin-top: auto;
+  height: 30%;
+}
+
+.text-sidebar-properties-table {
+  border-bottom: #333333 solid 1px;
+}
+
+.text-sidebar-properties-row {
+  border-top: #333333 solid 1px;
+  margin: 0;
+  max-width: calc(100% - 1.5rem);
+  min-width: calc(100% - 1.5rem);
+  display: flex;
+  padding-left: 0.75rem;
+  padding-right: 0.55rem;
+}
+
+.text-sidebar-properties-header {
+  padding-top: 0.15rem;
+  padding-bottom: 0.25rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 0.9rem;
+  width: 50%;
+}
+
+.text-sidebar-properties-option {
+  padding-top: 0.15rem;
+  margin: auto 0 auto auto;
 }

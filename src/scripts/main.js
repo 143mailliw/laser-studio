@@ -6,7 +6,7 @@ let currentPath = null;
 let currentMode = 999; // 0: Graphical, 1: Editor, 2: Render, 999: Intro
 let startingFileObject = {
   effects: { effectsArray: [] },
-  functions: { functionsArray: [] },
+  snippets: { snippetsArray: [] },
   graphical: {
     lastUpdate: new Date(),
     width: 20,
@@ -60,8 +60,8 @@ function upgradeFileObject() {
   if(!fileObject.effects.effectsArray) {
     fileObject.effects.effectsArray = [];
   }
-  if(!fileObject.functions) {
-    fileObject.functions = { functionsArray: [] };
+  if(!fileObject.snippets) {
+    fileObject.snippets = { snippetsArray: [] };
   }
 }
 
@@ -130,6 +130,8 @@ function setup() {
   textSetup();
   setupRender();
   setupIntro();
+  setupSnippets();
+  setupEffects();
 
   //setup toolbar
   document.getElementById("clear").addEventListener("click", () => {

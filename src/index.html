@@ -7,6 +7,8 @@
     <script type="text/javascript" src="./scripts/export.js"></script>
     <script type="text/javascript" src="./scripts/render.js"></script>
     <script type="text/javascript" src="./scripts/intro.js"></script>
+    <script type="text/javascript" src="./scripts/effects.js"></script>
+    <script type="text/javascript" src="./scripts/snippets.js"></script>
     <script type="text/javascript" src="./scripts/copyToClipboard-min.js"></script>
     <script type="text/javascript" src="./scripts/pickr.min.js"></script>
     <link rel="stylesheet" href="css/graphical.css">
@@ -24,7 +26,7 @@
       <div class="dialogs">
         <div class="dialog" style="display: none" id="about-dialog">
           <h1>Laser Studio</h1>
-          <div class="about-version">1.1</div>
+          <div class="about-version">2.0 pre-alpha</div>
           <div class="about-copyright">
             Licensed under the Apache License 2.0<br>
             © 2020 william341, Chrnan6710. Some rights reserved.
@@ -102,7 +104,7 @@
       <div class="intro" id="intro">
         <div class="intro-info">
           <div class="intro-brand">Laser Studio</div>
-          <div class="intro-version">1.1</div>
+          <div class="intro-version">2.0 pre-alpha</div>
           <div class="intro-copyright">
             Licensed under the Apache License 2.0<br>
             © 2020 william341, Chrnan6710.
@@ -112,12 +114,15 @@
           <div class="ls-button" id="intro-new">New</div>
           <div class="ls-button" id="intro-open">Open</div>
           <div class="intro-update">
-            <div class="intro-update-header">what's new: 1.1</div>
+            <div class="intro-update-header">what's new: 2.0</div>
             <div class="intro-update-container">
               <div class="intro-update-info">
                 <ul>
-                  <li>Graphical: Added grid</li>
-                  <li>Graphical: #000000 no longer counts as a pixel</li>
+                  <li>Unfinished: Effects system</li>
+                  <li>Unfinished: Functions system</li>
+                  <li>Not yet started: Increase/decrease dot size</li>
+                  <li>Not yet started: Improved support for variable<br> declarations in the transpiler.</li>
+                  <li>Unfinished: Allow disabling compiler features</li>
                 </ul>
               </div>
             </div>
@@ -149,41 +154,63 @@
       </div>
       <div class="text" id="text" style="display: none;">
         <div class="text-sidebar">
-          <div class="text-sidebar-section" id="text-sidebar-expression">
-            <div class="text-sidebar-header">expression</div>
-            <div class="text-sidebar-item" id="text-sidebar-expitem">Expression</div>
-          </div>
-          <div class="text-sidebar-section" id="text-sidebar-effects">
-            <div class="text-sidebar-header">
-              effects
-              <div class="text-add-menu">
-                <div class="text-add-file" id="text-effects-add-file">
-                  <i class="fas fa-file"></i>
+          <div class="text-sidebar-files">
+            <div class="text-sidebar-section" id="text-sidebar-expression">
+              <div class="text-sidebar-header">expression</div>
+              <div class="text-sidebar-item" id="text-sidebar-expitem">Expression</div>
+            </div>
+            <div class="text-sidebar-section" id="text-sidebar-effects">
+              <div class="text-sidebar-header">
+                effects
+                <div class="text-add-menu">
+                  <div class="text-add-file" id="text-effects-add-file">
+                    <i class="fas fa-file"></i>
+                  </div>
+                  <div class="text-add-new" id="text-effects-add-new">
+                    <i class="fas fa-plus"></i>
+                  </div>
                 </div>
-                <div class="text-add-new" id="text-effects-add-new">
-                  <i class="fas fa-plus"></i>
+              </div>
+              <div class="text-sidebar-item">Effect 1</div>
+              <div class="text-sidebar-item">Effect 2</div>
+              <div class="text-sidebar-item">Effect 3</div>
+            </div>
+            <div class="text-sidebar-section" id="text-sidebar-snippets">
+              <div class="text-sidebar-header">
+                snippets
+                <div class="text-add-menu">
+                  <div class="text-add-file" id="text-snippets-add-file">
+                    <i class="fas fa-file"></i>
+                  </div>
+                  <div class="text-add-new" id="text-snippets-add-new">
+                    <i class="fas fa-plus"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="text-sidebar-item">snippet1()</div>
+              <div class="text-sidebar-item">snippet2()</div>
+              <div class="text-sidebar-item">snippet3()</div>
+            </div>
+          </div>
+          <div class="text-sidebar-section text-sidebar-properties">
+            <div class="text-sidebar-header">properties</div>
+            <div class="text-sidebar-properties-table">
+              <div id="text-sidebar-expression-properties">
+                <div class="text-sidebar-header">export options</div>
+                <div class="text-sidebar-properties-row">
+                  <div class="text-sidebar-properties-header">disableGraphics</div>
+                  <div class="text-sidebar-properties-option"><div class="checkbox off" id="properties-disable-graphics"></div></div>
+                </div>
+                <div class="text-sidebar-properties-row">
+                  <div class="text-sidebar-properties-header">disableEffects</div>
+                  <div class="text-sidebar-properties-option"><div class="checkbox off" id="properties-disable-effects"></div></div>
+                </div>
+                <div class="text-sidebar-properties-row">
+                  <div class="text-sidebar-properties-header">disableSnippets</div>
+                  <div class="text-sidebar-properties-option"><div class="checkbox off" id="properties-disable-snippets"></div></div>
                 </div>
               </div>
             </div>
-            <div class="text-sidebar-item">Effect 1</div>
-            <div class="text-sidebar-item">Effect 2</div>
-            <div class="text-sidebar-item">Effect 3</div>
-          </div>
-          <div class="text-sidebar-section" id="text-sidebar-functions">
-            <div class="text-sidebar-header">
-              functions
-              <div class="text-add-menu">
-                <div class="text-add-file" id="text-functions-add-file">
-                  <i class="fas fa-file"></i>
-                </div>
-                <div class="text-add-new" id="text-functions-add-new">
-                  <i class="fas fa-plus"></i>
-                </div>
-              </div>
-            </div>
-            <div class="text-sidebar-item">func1()</div>
-            <div class="text-sidebar-item">func2()</div>
-            <div class="text-sidebar-item">func3()</div>
           </div>
         </div>
         <div class="text-container" id="text-container"></div>
