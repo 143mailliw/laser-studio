@@ -44,6 +44,15 @@ function dismissIntro() {
   }
 }
 
+function resetEditorFromObject() {
+  let effectButtonsElements = Object.values(effectButtons);
+  for(let i = 0; i < effectButtonsElements.length; i++) {
+    effectButtonsElements[i].parentNode.removeChild(effectButtonsElements[i]);
+  }
+  changeDocument(0);
+  changeTextActiveItem(document.getElementById("text-sidebar-expitem"));
+}
+
 function newDocument() {
   fileObject = JSON.parse(JSON.stringify(startingFileObject));
   fileObject.graphical.lastUpdate = new Date();
@@ -51,8 +60,8 @@ function newDocument() {
   dismissIntro();
   editor.setValue(fileObject.editor.text);
   renderGraphicalDocument();
+  resetEditorFromObject();
   document.getElementById("text-sidebar-expitem").innerText = "Untitled";
-  document.getElementById("text-sidebar-expitem").className = "text-sidebar-item text-sidebar-item-active";
 }
 
 function upgradeFileObject() {
@@ -76,12 +85,12 @@ function openDocument() {
     if(!result.canceled) {
       console.log(result);
       let filePath = result.filePaths[0];
-      result = fs.readFileSync(filePath);
-      let fileObject = JSON.parse(result);
+      let textResult = fs.readFileSync(filePath);
+      fileObject = JSON.parse(textResult);
       upgradeFileObject();
       dismissIntro();
       renderGraphicalDocument();
-      editor.setValue(fileObject.editor.text);
+      resetEditorFromObject();
       if(currentMode === 2) {
         stopDrawing();
         startDrawing();
@@ -90,7 +99,6 @@ function openDocument() {
       let fileName = filePath.split("/");
       let fileNameWindows = fileName[fileName.length - 1].split("\\");
       document.getElementById("text-sidebar-expitem").innerText = fileNameWindows[fileNameWindows.length - 1].slice(0, -4);
-      document.getElementById("text-sidebar-expitem").className = "text-sidebar-item text-sidebar-item-active";
     }
   })
 }
@@ -120,6 +128,17 @@ function saveDocumentAs() {
       currentPath = filePath;
     }
   })
+}
+
+
+
+// we call this in other scripts
+// noinspection JSUnusedLocalSymbols
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    let r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }
 
 // we call this onLoad
@@ -242,5 +261,9 @@ function setup() {
       saveDocument();
     }
   });
-  document.getElementById("save-as").addEventListener("click", saveDocumentAs)
+  document.getElementById("save-as").addEventListener("click", saveDocumentAs);
+  document.getElementById("text-sidebar-expitem").addEventListener("click", () => {
+    changeDocument(0);
+    changeTextActiveItem(document.getElementById("text-sidebar-expitem"));
+  })
 }

@@ -1,6 +1,7 @@
 const startingSnippetObject = {
     name: "newSnippet()",
-    parameters: []
+    parameters: [],
+    text: ``
 };
 
 const startingSnippetParameterObject = {

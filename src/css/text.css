@@ -43,8 +43,8 @@
   background-color: #303030;
 }
 
-.text-sidebar-item-active {
-  background-color: #333333;
+.text-sidebar-active {
+  background-color: #333333 !important;
 }
 
 .text-add-menu {

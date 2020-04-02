@@ -1,9 +1,9 @@
 const path = require('path');
 const amdLoader = require('../node_modules/monaco-editor/min/vs/loader.js');
 const amdRequire = amdLoader.require;
-const amdDefine = amdLoader.require.define;
 let editor = null;
 let currentEditorType = 0; // 0 for Expression, 1 for Effect, 2 for Function
+let currentEditorDocument = "expression";
 
 let tokens = {
   // Set defaultToken to invalid to see what you do not tokenize yet
@@ -26,7 +26,7 @@ let tokens = {
   ],
 
   // we include these common regular expressions
-  symbols:  /[=><!~?:&|+\-*\/\^%]+/,
+  symbols:  /[=><!~?:&|+\-*\/^%]+/,
 
   // The main tokenizer for our languages
   tokenizer: {
@@ -64,16 +64,41 @@ let theme = {
   colors: {
     "editor.background": '#222222'
   }
+};
+
+// we call this in other scripts
+// noinspection JSUnusedLocalSymbols
+function changeTextActiveItem(element) {
+  let oldActive = document.getElementsByClassName("text-sidebar-active")[0];
+  oldActive.className = "text-sidebar-item";
+  element.className = "text-sidebar-item text-sidebar-active";
+}
+
+// we call this in other scripts
+// noinspection JSUnusedLocalSymbols
+function changeDocument(editorType, id) {
+  if(editorType === 0) {
+    currentEditorType = 0;
+    currentEditorDocument = "expression";
+    editor.setValue(fileObject.editor.text);
+  }
+  if(editorType === 1) {
+    currentEditorType = 1;
+    currentEditorDocument = id;
+    editor.setValue(fileObject.effects.effectsArray[id].text);
+  }
 }
 
 function uriFromPath(_path) {
-	var pathName = path.resolve(_path).replace(/\\/g, '/');
+	let pathName = path.resolve(_path).replace(/\\/g, '/');
 	if (pathName.length > 0 && pathName.charAt(0) !== '/') {
 		pathName = '/' + pathName;
 	}
 	return encodeURI('file://' + pathName);
 }
 
+// we call this in other scripts
+// noinspection JSUnusedLocalSymbols
 function textSetup() {
   amdRequire.config({
     baseUrl: uriFromPath(path.join(__dirname, '../node_modules/monaco-editor/min'))
@@ -317,22 +342,26 @@ function textSetup() {
       language: 'tuexpression'
     });
 
-    editor.getModel().onDidChangeContent((e) => {
-      fileObject.editor.text = editor.getValue()
-    })
+    editor.getModel().onDidChangeContent(() => {
+      if(currentEditorType === 0) {
+        fileObject.editor.text = editor.getValue()
+      } else if(currentEditorType === 1) {
+        fileObject.effects.effectsArray[currentEditorDocument].text = editor.getValue()
+      }
+    });
 
-    window.addEventListener("resize", (e) => {
+    window.addEventListener("resize", () => {
       editor.layout();
-    })
+    });
 
-    document.getElementById("text-undo").addEventListener("click", (e) => {
+    document.getElementById("text-undo").addEventListener("click", () => {
       editor.trigger('aaaa', 'undo', 'aaaa');
-    })
-    document.getElementById("text-redo").addEventListener("click", (e) => {
+    });
+    document.getElementById("text-redo").addEventListener("click", () => {
       editor.trigger('aaaa', 'redo', 'aaaa');
-    })
-    document.getElementById("text-find").addEventListener("click", (e) => {
+    });
+    document.getElementById("text-find").addEventListener("click", () => {
       editor.getAction('actions.find').run()
-    })
+    });
   });
 }
