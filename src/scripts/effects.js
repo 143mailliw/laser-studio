@@ -10,9 +10,10 @@ const startingEffectsObject = {
 
 const startingEffectsParameterObject = {
   name: "New Parameter",
-  value: null,
-  type: "text",
-  variableName: "newparam"
+  value: "",
+  type: 0, //text 0 slider 1 checkbox 2
+  variableName: "NewParam",
+  processingRules: {}
 };
 
 let effectButtons = [];
@@ -25,9 +26,107 @@ function addEffect(effect) {
   addEffectToSidebar(effect);
 }
 
+function regenerateParameterTable() {
+  document.getElementById("text-sidebar-effect-parameters").innerHTML = "";
+  for(let i = 0; i < fileObject.effects.effectsArray[currentEditorDocument].parameters.length; i++) {
+    addParameterToEffectsTable(i);
+  }
+}
+
+function addParameterToEffectsTable(parameterNumber) {
+  let parameter = fileObject.effects.effectsArray[currentEditorDocument].parameters[parameterNumber];
+  let sectionElement = document.createElement("div");
+  addHeaderToEffectsTable(parameterNumber, sectionElement);
+  addNameRowToEffectsTable(parameter, sectionElement);
+  addVariableRowToEffectsTable(parameter, sectionElement);
+  addValueRowToEffectsTable(parameter, sectionElement);
+  let dividerElement = document.createElement("div");
+  dividerElement.className = "text-sidebar-properties-divider";
+  sectionElement.appendChild(dividerElement);
+  document.getElementById("text-sidebar-effect-parameters").appendChild(sectionElement);
+}
+
+function addHeaderToEffectsTable(parameterNumber, parent) {
+  let headerElement = document.createElement("div");
+  headerElement.className = "text-sidebar-header";
+  headerElement.innerText = "parameter " + parameterNumber;
+  parent.appendChild(headerElement);
+}
+
+function addNameRowToEffectsTable(parameter, parent) {
+  let rowElement = document.createElement("div");
+  rowElement.className = "text-sidebar-properties-row";
+  let nameElement = document.createElement("div");
+  nameElement.className = "text-sidebar-properties-header";
+  nameElement.innerText = "Name";
+  rowElement.appendChild(nameElement);
+  let contentContainerElement = document.createElement("div");
+  contentContainerElement.className = "text-sidebar-properties-option";
+  rowElement.appendChild(contentContainerElement);
+  let contentElement = document.createElement("input");
+  contentElement.className = "text-sidebar-properties-text";
+  contentElement.type = "text";
+  contentElement.value = parameter.name;
+  contentElement.addEventListener("input", (e) => {
+    parameter.name = e.target.value;
+  });
+  contentContainerElement.appendChild(contentElement);
+  parent.appendChild(rowElement);
+}
+
+function addVariableRowToEffectsTable(parameter, parent) {
+  let rowElement = document.createElement("div");
+  rowElement.className = "text-sidebar-properties-row";
+  let nameElement = document.createElement("div");
+  nameElement.className = "text-sidebar-properties-header";
+  nameElement.innerText = "VariableName";
+  rowElement.appendChild(nameElement);
+  let contentContainerElement = document.createElement("div");
+  contentContainerElement.className = "text-sidebar-properties-option";
+  rowElement.appendChild(contentContainerElement);
+  let contentElement = document.createElement("input");
+  contentElement.className = "text-sidebar-properties-text";
+  contentElement.type = "text";
+  contentElement.value = parameter.variableName;
+  contentElement.addEventListener("input", (e) => {
+    parameter.variableName = e.target.value;
+  });
+  contentContainerElement.appendChild(contentElement);
+  parent.appendChild(rowElement);
+}
+
+function addValueRowToEffectsTable(parameter, parent) {
+  let rowElement = document.createElement("div");
+  rowElement.className = "text-sidebar-properties-row";
+  let nameElement = document.createElement("div");
+  nameElement.className = "text-sidebar-properties-header";
+  nameElement.innerText = "Value";
+  rowElement.appendChild(nameElement);
+  let contentContainerElement = document.createElement("div");
+  contentContainerElement.className = "text-sidebar-properties-option";
+  rowElement.appendChild(contentContainerElement);
+  let contentElement = document.createElement("input");
+  contentElement.className = "text-sidebar-properties-text";
+  contentElement.type = "text";
+  contentElement.value = parameter.value;
+  contentElement.addEventListener("input", (e) => {
+    parameter.value = e.target.value;
+  });
+  contentContainerElement.appendChild(contentElement);
+  parent.appendChild(rowElement);
+}
+
+function addParameter() {
+  let effect = fileObject.effects.effectsArray[currentEditorDocument];
+  effect.parameters.push(JSON.parse(JSON.stringify(startingEffectsParameterObject)));
+  addParameterToEffectsTable(effect.parameters.length - 1);
+  document.getElementById("properties-effect-pcount").innerText = effect.parameters.length;
+}
+
 function setupEffectsProperties(effect) {
   document.getElementById("properties-effect-name").value = effect.name;
   document.getElementById("properties-effect-pcount").innerText = effect.parameters.length;
+  regenerateParameterTable();
 }
 
 function regenerateEffectsMenu() {
@@ -39,7 +138,6 @@ function regenerateEffectsMenu() {
 }
 
 function addEffectToSidebar(effect) {
-  console.log("adding new effect to sidebar");
   let newElement = document.createElement("div");
   newElement.className = "text-sidebar-item";
   newElement.innerText = effect.name;
@@ -56,5 +154,6 @@ function setupEffects() {
   document.getElementById("properties-effect-name").addEventListener("input", (e) => {
     fileObject.effects.effectsArray[currentEditorDocument].name = e.target.value;
     effectButtons[currentEditorDocument].innerText = e.target.value;
-  })
+  });
+  document.getElementById("properties-effect-add-param").addEventListener("click", addParameter)
 }

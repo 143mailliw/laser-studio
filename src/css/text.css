@@ -82,10 +82,12 @@
   border-top: #444444 solid 1px;
   margin-top: auto;
   height: 30%;
+  overflow-y: auto;
 }
 
 .text-sidebar-properties-table {
   border-bottom: #333333 solid 1px;
+  margin-bottom: 1rem;
 }
 
 .text-sidebar-properties-row {
@@ -124,8 +126,23 @@
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
   text-align: right;
+  width: 100%;
 }
 
 .text-sidebar-properties-readonly {
   color: #aaaaaa;
+}
+
+.text-properties-add-menu {
+  color: #999999;
+  position: absolute;
+  right: 0.35rem;
+  display: inline-block;
+  top: 0.1rem;
+}
+
+.text-sidebar-properties-divider {
+  height: 1px;
+  width: 100%;
+  background-color: #333333;
 }
