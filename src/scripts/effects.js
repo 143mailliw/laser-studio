@@ -130,9 +130,8 @@ function setupEffectsProperties(effect) {
 }
 
 function regenerateEffectsMenu() {
-  console.log("a");
+  document.getElementById("text-sidebar-effects").innerHTML = "";
   for(let i = 0; i < Object.values(fileObject.effects.effectsArray).length; i++) {
-    console.log("a");
     addEffectToSidebar(Object.values(fileObject.effects.effectsArray)[i]);
   }
 }

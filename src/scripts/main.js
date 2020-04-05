@@ -51,9 +51,9 @@ function resetEditorFromObject() {
       effectButtonsElements[i].parentNode.removeChild(effectButtonsElements[i]);
     }
   }
-  regenerateEffectsMenu();
   changeDocument(0);
   changeTextActiveItem(document.getElementById("text-sidebar-expitem"));
+  regenerateEffectsMenu();
 }
 
 function newDocument() {
