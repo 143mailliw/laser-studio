@@ -1,3 +1,7 @@
+let exportGraphics = true
+let exportEffects = true
+let exportSnippets = true
+
 function createGraphicsExpression() {
   let outputx = "";
   let outputy = "";
@@ -39,10 +43,26 @@ function createGraphicsExpression() {
   return "x' = (" + outputx + ");<br><br>y' = (-" + outputy + ");<br><br>h = " + outputh + ";<br>s = " + outputs + ";<br>v = " + outputv +";"
 }
 
-function createEffectsExpression() {
-  let baseString = ""
+function escapeRegExp(string) {
+  return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
 
-  if(spin) {
+function createEffectsExpression() {
+  let baseString = ``
+
+  for(let i = 0; i < Object.values(fileObject.effects.effectsArray).length; i++) {
+    let workingEffect = Object.values(fileObject.effects.effectsArray)[i]
+    let workingText = workingEffect.text
+
+    for(let p = 0; p < workingEffect.parameters.length; p++) {
+      console.log(escapeRegExp(workingEffect.parameters[p].variableName))
+      workingText = workingText.replace(new RegExp(escapeRegExp("%" + workingEffect.parameters[p].variableName + "%"), 'g'), workingEffect.parameters[p].value);
+    }
+
+    baseString = baseString + `\n` + workingText
+  }
+
+  /*if(spin) {
     baseString = baseString + "<br>xf = x'<br>yf = y'<br><br>xr = projectionTime;<br>yr = projectionTime;<br>zr = projectionTime;<br><br>xz = xf*cos(zr)-yf*sin(zr);<br>yz = xf*sin(zr)+yf*cos(zr);<br><br>x' = xz*cos(yr)+sin(yr)*yz*sin(xr);<br>y' = yz*cos(xr);<br>"
   }
 
@@ -52,19 +72,20 @@ function createEffectsExpression() {
 
   if(expand) {
     baseString = baseString + "<br>y' = y' * abs(cos(projectionTime))*2<br>x' = x' * abs(cos(projectionTime))*2"
-  }
+  }*/
 
   return baseString
 }
 
 function fullExport() {
   let baseString = ""
-  if(Object.values(fileObject.graphical.indexObject).includes(true)) {
-    console.log("a");
+  if(Object.values(fileObject.graphical.indexObject).includes(true) && exportGraphics) {
     baseString = baseString + createGraphicsExpression() + "<br>"
   }
   baseString = baseString + fileObject.editor.text.replace(/[\n\r]/g, '<br>');
-  baseString = baseString + createEffectsExpression();
+  if(exportEffects) {
+    baseString = baseString + createEffectsExpression().replace(/[\n\r]/g, '<br>');
+  }
   return baseString
 }
 
@@ -76,5 +97,23 @@ function exportSetup() {
   })
   document.getElementById("output-copy").addEventListener("click", (e) => {
     window.copyToClipboard(document.getElementById("output").innerText);
+  })
+  document.getElementById("properties-disable-effects").addEventListener("click", (e) => {
+    if(exportEffects) {
+      e.target.className = "checkbox on";
+      exportEffects = false
+    } else {
+      e.target.className = "checkbox off";
+      exportEffects = true
+    }
+  })
+  document.getElementById("properties-disable-graphics").addEventListener("click", (e) => {
+    if(exportGraphics) {
+      e.target.className = "checkbox on";
+      exportGraphics = false
+    } else {
+      e.target.className = "checkbox off";
+      exportGraphics = true
+    }
   })
 }

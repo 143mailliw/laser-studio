@@ -50,7 +50,7 @@ body {
   padding: 0;
 }
 
-.ticked {
+.checkbox.on {
   background-color: #cccccc;
   border-color: #cccccc;
 }
