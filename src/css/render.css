@@ -33,6 +33,15 @@
   border-radius: 0.25rem;
 }
 
+.render-controls-size {
+  position: absolute;
+  top: 1rem;
+  left: 4rem;
+  background-color: #333333;
+  width: max-content;
+  border-radius: 0.25rem;
+}
+
 .render-controls-plus {
   padding: 0.5rem;
   border-bottom: solid #555555 0.1rem;

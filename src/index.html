@@ -26,7 +26,7 @@
       <div class="dialogs">
         <div class="dialog" style="display: none" id="about-dialog">
           <h1>Laser Studio</h1>
-          <div class="about-version">2.0 alpha</div>
+          <div class="about-version">2.0</div>
           <div class="about-copyright">
             Licensed under the Apache License 2.0<br>
             © 2020 william341, Chrnan6710. Some rights reserved.
@@ -104,7 +104,7 @@
       <div class="intro" id="intro">
         <div class="intro-info">
           <div class="intro-brand">Laser Studio</div>
-          <div class="intro-version">2.0 alpha</div>
+          <div class="intro-version">2.0</div>
           <div class="intro-copyright">
             Licensed under the Apache License 2.0<br>
             © 2020 william341, Chrnan6710.
@@ -118,9 +118,10 @@
             <div class="intro-update-container">
               <div class="intro-update-info">
                 <ul>
-                  <li>Unfinished: Effects system</li>
-                  <li>Not yet started: Increase/decrease dot size</li>
-                  <li>Not yet started: Improved support for variable<br>declarations in the transpiler.</li>
+                  <li>Effects system</li>
+                  <li>Increase/decrease dot size, from 1px up to 10px.</li>
+                  <li>Improved support for variable declarations<br>in the transpiler.</li>
+                  <li>Error message for using a reserved keyword.</li>
                   <li>Allow disabling compiler features</li>
                 </ul>
               </div>
@@ -171,21 +172,21 @@
             </div>
             <div class="text-sidebar-section" id="text-sidebar-effects">
             </div>
-            <div class="text-sidebar-section" id="text-sidebar-snippets">
-              <div class="text-sidebar-header">
-                snippets
-                <div class="text-add-menu">
-                  <div class="text-add-file" id="text-snippets-add-file">
-                    <i class="fas fa-file"></i>
-                  </div>
-                  <div class="text-add-new" id="text-snippets-add-new">
-                    <i class="fas fa-plus"></i>
-                  </div>
+            <!--<div class="text-sidebar-header">
+              snippets
+              <div class="text-add-menu">
+                <div class="text-add-file" id="text-snippets-add-file">
+                  <i class="fas fa-file"></i>
+                </div>
+                <div class="text-add-new" id="text-snippets-add-new">
+                  <i class="fas fa-plus"></i>
                 </div>
               </div>
-              <div class="text-sidebar-item">snippet1()</div>
+            </div>!-->
+            <div class="text-sidebar-section" id="text-sidebar-snippets">
+              <!--<div class="text-sidebar-item">snippet1()</div>
               <div class="text-sidebar-item">snippet2()</div>
-              <div class="text-sidebar-item">snippet3()</div>
+              <div class="text-sidebar-item">snippet3()</div>!-->
             </div>
           </div>
           <div class="text-sidebar-section text-sidebar-properties">
@@ -201,13 +202,13 @@
                   <div class="text-sidebar-properties-header">DisableEffects</div>
                   <div class="text-sidebar-properties-option"><div class="checkbox off" id="properties-disable-effects"></div></div>
                 </div>
-                <div class="text-sidebar-properties-row">
+                <!--<div class="text-sidebar-properties-row">
                   <div class="text-sidebar-properties-header">DisableSnippets</div>
                   <div class="text-sidebar-properties-option"><div class="checkbox off" id="properties-disable-snippets"></div></div>
-                </div>
+                </div>!-->
               </div>
               <div id="text-sidebar-effect-properties" style="display: none">
-                <div class="text-sidebar-header">effect details</div>
+                <div class="text-sidebar-header">effect details <span id="effects-save-effect" class="text-properties-add-menu text-add-new">save</span></div>
                 <div class="text-sidebar-properties-row">
                   <div class="text-sidebar-properties-header">Name</div>
                   <div class="text-sidebar-properties-option"><input type="text" class="text-sidebar-properties-text" id="properties-effect-name"></div>
@@ -240,7 +241,12 @@
           <div class="render-controls-minus" id="render-controls-minus"><i class="fas fa-minus"></i></div>
           <div class="render-controls-zoom" id="render-controls-zoom">2x</div>
         </div>
-        <div class="render-error" id="render-error" style="display: none;">Error: TestError (ln 0)</div>
+        <div class="render-controls-size">
+          <div class="render-controls-plus" id="render-size-plus"><i class="fas fa-plus"></i></div>
+          <div class="render-controls-minus" id="render-size-minus"><i class="fas fa-minus"></i></div>
+          <div class="render-controls-zoom" id="render-controls-size">2px</div>
+        </div>
+        <div class="render-error" id="render-error" style="display: none;">Error: If you see this, something's broken. (ln ?)</div>
       </div>
     </div>
   </body>

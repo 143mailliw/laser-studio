@@ -148,6 +148,43 @@ function addEffectToSidebar(effect) {
   effectButtons[effect.id] = newElement;
 }
 
+function saveEffect() {
+  let saveString = JSON.stringify(fileObject.effects.effectsArray[currentEditorDocument]);
+  dialog.showSaveDialog({
+    filters : [{
+      name: "Laser Studio Effect",
+      extensions: ["lsfx"]
+    }],
+    properties: ["showOverwriteConfirmation"]
+  }).then(result => {
+    filePath = result.filePath;
+    if (!filePath.endsWith(".lsfx")) {
+      filePath = filePath + ".lsfx";
+    }
+    if(!result.canceled) {
+      fs.writeFileSync(filePath, saveString);
+      currentPath = filePath;
+    }
+  })
+}
+
+function loadEffect() {
+  dialog.showOpenDialog({
+    filters : [{
+      name: "Laser Studio Effect",
+      extensions: ["lsfx"]
+    }],
+    properties: ["openFile"]
+  }).then(result => {
+    if(!result.canceled) {
+      console.log(result);
+      let filePath = result.filePaths[0];
+      let textResult = fs.readFileSync(filePath);
+      addEffect(JSON.parse(textResult));
+    }
+  })
+}
+
 function setupEffects() {
   document.getElementById("text-effects-add-new").addEventListener("click", () => {addEffect(JSON.parse(JSON.stringify(startingEffectsObject)))});
   document.getElementById("properties-effect-name").addEventListener("input", (e) => {
@@ -155,4 +192,6 @@ function setupEffects() {
     effectButtons[currentEditorDocument].innerText = e.target.value;
   });
   document.getElementById("properties-effect-add-param").addEventListener("click", addParameter)
+  document.getElementById("text-effects-add-file").addEventListener("click", loadEffect)
+  document.getElementById("effects-save-effect").addEventListener("click", saveEffect)
 }

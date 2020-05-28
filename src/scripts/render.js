@@ -5,6 +5,7 @@ let canvasContext = null
 let ext = {};
 let projectionStartTime = null;
 let projectionRenderScale = 2;
+let projectionRenderSize = 2;
 
 function reverseError(errorText) {
   let laserError = errorText.replace(/_prime/g , "'");
@@ -24,12 +25,15 @@ function reverseError(errorText) {
   laserError = laserError.replace(/Math.random\(/g,"rand(");
   laserError = laserError.replace(/towerIf\(/g,"if(");
   laserError = laserError.replace(/\*\*/g, "^");
+  laserError = laserError.replace(/let /g, "")
+  laserError = laserError.replace(/towerIfReplacementVariableIfYouNameYourVariableThisYouDie/g, "towerIf")
 
   return laserError;
 }
 
 function convertToJs(laserCode) {
   let javaCode = laserCode.replace(/'/g , "_prime");
+  javaCode = javaCode.replace(/towerIf/g, "towerIfReplacementVariableIfYouNameYourVariableThisYouDie")
   javaCode = javaCode.replace(/asin\(/g, "Math.abin(")
   javaCode = javaCode.replace(/sin\(/g, "Math.sin(")
   javaCode = javaCode.replace(/Math.abin\(/g, "Math.asin(")
@@ -54,7 +58,28 @@ function convertToJs(laserCode) {
     return subStr + "*"
   })
 
-  return javaCode
+  let javaCodeArray = javaCode.split("\n");
+  let usedVariablesArray = [];
+  let invalidVariablesArray = ["x", "y", "index", "count", "fraction", "pi", "tau", "time", "projectionTime", "projectionStartTime"];
+
+  for(let i = 0; i < javaCodeArray.length; i++) {
+    if(/\w+ *=/.test(javaCodeArray[i])) {
+      let splitVariable = javaCodeArray[i].split("=")[0].split(" ")[0]
+      console.log("variable detected: " + splitVariable)
+
+      if(!usedVariablesArray.includes(splitVariable)) {
+        javaCodeArray[i] = "let " + javaCodeArray[i];
+        usedVariablesArray.push(splitVariable);
+        console.log("this is a new variable");
+      }
+
+      if(invalidVariablesArray.includes(splitVariable)) {
+        javaCodeArray[i] = "throw new Error('Input variable " + splitVariable + " used as a regular variable')"
+      }
+    }
+  }
+
+  return javaCodeArray.join("\n")
 }
 
 function createSandboxFunction(jsFunction) {
@@ -115,7 +140,7 @@ function drawDot(x, y, h, s, v) {
     ctx.fillStyle = "hsl(" + hsl.h.toString() + "," + hsl.s.toString() + "%," + hsl.l.toString() + "%)";
     ctx.strokeStyle = "hsl(" + hsl.h.toString() + "," + hsl.s.toString() + "%," + hsl.l.toString() + "%)";
     ctx.beginPath();
-    ctx.arc(x, y, 1.5, 0, 2 * Math.PI);
+    ctx.arc(x, y, projectionRenderSize / 2, 0, 2 * Math.PI);
     ctx.stroke();
     ctx.fill();
   }
@@ -146,6 +171,16 @@ function setupRender() {
   document.getElementById("render-controls-minus").addEventListener("click", () => {
     projectionRenderScale = projectionRenderScale > 0.25 ? (projectionRenderScale - 0.25) : projectionRenderScale;
     document.getElementById("render-controls-zoom").innerText = projectionRenderScale.toString() + "x"
+  })
+
+  document.getElementById("render-size-plus").addEventListener("click", () => {
+    projectionRenderSize = projectionRenderSize < 10 ? (projectionRenderSize + 1) : projectionRenderSize;
+    document.getElementById("render-controls-size").innerText = projectionRenderSize.toString() + "px"
+  })
+
+  document.getElementById("render-size-minus").addEventListener("click", () => {
+    projectionRenderSize = projectionRenderSize > 1 ? (projectionRenderSize - 1) : projectionRenderSize;
+    document.getElementById("render-controls-size").innerText = projectionRenderSize.toString() + "px"
   })
 
   window.addEventListener("resize", (e) => {

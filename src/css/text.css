@@ -83,6 +83,7 @@
   margin-top: auto;
   height: 25rem;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .text-sidebar-properties-table {
@@ -117,7 +118,6 @@
   margin-top: -0.125rem;
   background-color: #272727;
   border: none;
-  margin-left: 0.25rem;
   padding: 0;
   outline: none !important;
   font-size: 0.9rem;
@@ -136,13 +136,17 @@
 .text-properties-add-menu {
   color: #999999;
   position: absolute;
-  right: 0.35rem;
+  right: 0.45rem;
   display: inline-block;
   top: 0.1rem;
 }
 
 .text-sidebar-properties-divider {
   height: 1px;
-  width: 100%;
+  width: calc(100% + 0.25rem);
   background-color: #333333;
+}
+
+#properties-effect-pcount {
+  margin-right: 0;
 }
