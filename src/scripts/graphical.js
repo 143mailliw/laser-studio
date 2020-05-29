@@ -112,33 +112,6 @@ function graphicalSetup() {
       }, 2500)
     }
   })
-  document.getElementById("graphical-enable-spin").addEventListener("click", (e) => {
-    if (e.target.className.includes("ticked")) {
-      e.target.className = "checkbox off"
-      spin = false;
-    } else {
-      e.target.className = "checkbox ticked"
-      spin = true;
-    }
-  })
-  document.getElementById("graphical-enable-bounce").addEventListener("click", (e) => {
-    if (e.target.className.includes("ticked")) {
-      e.target.className = "checkbox off"
-      bounce = false;
-    } else {
-      e.target.className = "checkbox ticked"
-      bounce = true;
-    }
-  })
-  document.getElementById("graphical-enable-expand").addEventListener("click", (e) => {
-    if (e.target.className.includes("ticked")) {
-      e.target.className = "checkbox off"
-      expand = false;
-    } else {
-      e.target.className = "checkbox ticked"
-      expand = true;
-    }
-  })
   document.getElementById("menu-resize").addEventListener("click", (e) => {
     document.getElementById("resize-dialog").style.display = "block";
     document.getElementById("dialog-close").style.display = "block";

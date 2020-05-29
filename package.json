@@ -1,6 +1,6 @@
 {
   "name": "laser-studio",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -22,13 +22,13 @@
   },
   "build": {
     "appId": "me.william341.laserstudio",
-    "mac": {
-      "target": "zip",
-      "category": "public.app-category.developer-tools"
-    },
     "win": {
       "target": "zip",
       "publisherName": "william341"
+    },
+    "mac": {
+      "target": "zip",
+      "category": "public.app-category.developer-tools"
     },
     "linux": {
       "target": "AppImage"
