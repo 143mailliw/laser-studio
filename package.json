@@ -18,7 +18,7 @@
     "electron-debug": "^3.0.1",
     "electron-reload": "^1.5.0",
     "monaco-editor": "^0.20.0",
-    "vm2": "^3.8.4"
+    "vm2": "^3.9.4"
   },
   "build": {
     "appId": "me.william341.laserstudio",
